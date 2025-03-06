@@ -15,6 +15,7 @@ class UsersModel extends Model
         'email',
         'nama',
         'NIK',
+        'nomor_telepon',
         'password',
         'role',
         'status',

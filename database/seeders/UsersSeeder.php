@@ -35,6 +35,7 @@ class UsersSeeder extends Seeder
             'email' => "ibu@gmail.com",
             'nama' => "ibu1",
             'NIK' => "1234567891234567",
+            'nomor_telepon' => "081234567890",
             'password' => Hash::make('Ibu123'),
             'role' => "User",
             'status' => "ACTIVE",

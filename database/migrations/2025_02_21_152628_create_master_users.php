@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email', 191)->unique();
             $table->string('nama', 191)->nullable();
             $table->string('NIK', 16)->unique()->nullable();
+            $table->string('nomor_telepon')->nullable();
             $table->string('password');
             $table->string('role', 191);
             $table->string('status', 191)->default('ACTIVE');
