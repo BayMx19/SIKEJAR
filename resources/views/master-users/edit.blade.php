@@ -69,6 +69,16 @@
 
 
                                 <div class="row">
+                                    <!-- Nomor Telepon -->
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Nomor Telepon</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" class="form-control" name="nomor_telepon"
+                                                    autocomplete="off" value="{{$user->nomor_telepon}}">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- Role -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -88,9 +98,10 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                </div>
+                                <div class="row">
                                     <!-- Status -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Status</label>
                                             <div class="col-sm-9">
@@ -120,6 +131,7 @@
         </div>
     </div>
 </div>
+
 
 
 @endsection
