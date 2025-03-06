@@ -1,23 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+<div class="main-panel">
+    <div class="content-wrapper">
 
-                    {{ __('You are logged in!') }}
+        <div class="page-header">
+            <h3 class="page-title"> Dashboard </h3>
+            <nav aria-label="breadcrumb">
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Selamat Datang, {{ Auth::user()->nama }}!</h4>
+
+                        @if(Auth::user()->role == 'User')
+                        <p>Berikut adalah data anak Anda:</p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nama Anak</th>
+                                    <th>Tanggal Lahir</th>
+                                    <th>Status Imunisasi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($anak as $item)
+                                <tr>
+                                    <td>{{ $item->nama_anak }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($item->tanggal_lahir_anak)) }}</td>
+                                    <td>{{ $item->status_imunisasi }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+                        <br>
+                        <p>Selamat bertugas!</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
 @endsection
