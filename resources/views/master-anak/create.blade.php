@@ -4,7 +4,7 @@
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="page-header">
-            <h3 class="page-title"> Edit Users </h3>
+            <h3 class="page-title"> Tambah Anak </h3>
             <nav aria-label="breadcrumb">
             </nav>
         </div>
@@ -14,76 +14,72 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <form class="form-sample" method="POST"
-                                action="{{ route('master-users.update', $user->id) }}">
+                            <form class="form-sample" method="POST" action="{{ route('master-anak.store') }}">
                                 @csrf
-                                @method('PUT')
                                 <div class="row">
-                                    <!-- Username -->
+                                    <!-- Nama Anak -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Username</label>
+                                            <label class="col-sm-3 col-form-label">Nama Anak</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="username" required
-                                                    autocomplete="off" value="{{$user->username}}">
+                                                <input type="text" class="form-control" name="nama_anak" required
+                                                    autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Email -->
+                                    <!-- NIK Anak -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Email</label>
+                                            <label class="col-sm-3 col-form-label">NIK Anak</label>
                                             <div class="col-sm-9">
-                                                <input type="email" class="form-control" name="email" required
-                                                    autocomplete="off" value="{{$user->email}}">
+                                                <input type="text" class="form-control" minlength="16" maxlength="16"
+                                                    name="NIK_anak" required autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <!-- Nama -->
+                                    <!-- Nama Orang Tua -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nama</label>
+                                            <label class="col-sm-3 col-form-label">Nama Orang Tua</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="nama" autocomplete="off"
-                                                    value="{{$user->nama}}">
+                                                <select class="form-select" name="users_id">
+                                                    <option value="">Pilih Orang Tua</option>
+                                                    @foreach($users as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- NIK -->
+                                    <!-- Tanggal Lahir Anak -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">NIK</label>
+                                            <label class="col-sm-3 col-form-label">Tanggal Lahir Anak</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="NIK" minlength="16"
-                                                    maxlength="16" autocomplete="off" value="{{$user->NIK}}">
+                                                <input type="date" class="form-control" name="tanggal_lahir_anak"
+                                                    autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
-
                                 <div class="row">
-                                    <!-- Role -->
+                                    <!-- Jenis Kelamin Anak -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Role</label>
+                                            <label class="col-sm-3 col-form-label">Jenis Kelamin Anak</label>
                                             <div class="col-sm-9">
-                                                <select class="form-select" name="role" required>
-                                                    <option value="User"
-                                                        {{ (old('role', $user->role ?? '') == 'User') ? 'selected' : '' }}>
-                                                        User</option>
-                                                    <option value="Kader"
-                                                        {{ (old('role', $user->role ?? '') == 'Kader') ? 'selected' : '' }}>
-                                                        Kader</option>
-                                                    <option value="SuperAdmin"
-                                                        {{ (old('role', $user->role ?? '') == 'SuperAdmin') ? 'selected' : '' }}>
-                                                        SuperAdmin</option>
+                                                <select class="form-select" name="jenis_kelamin">
+                                                    <option value="">Pilih Jenis Kelamin</option>
+
+                                                    <option value="L">
+                                                        Laki - Laki</option>
+                                                    <option value="P">
+                                                        Perempuan</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -95,17 +91,21 @@
                                             <label class="col-sm-3 col-form-label">Status</label>
                                             <div class="col-sm-9">
                                                 <select class="form-select" name="status">
-                                                    <option value="ACTIVE"
-                                                        {{ (old('status', $user->status ?? '') == 'ACTIVE') ? 'selected' : '' }}>
-                                                        ACTIVE</option>
-                                                    <option value="INACTIVE"
-                                                        {{ (old('status', $user->status ?? '') == 'INACTIVE') ? 'selected' : '' }}>
-                                                        INACTIVE</option>
+                                                    <option value="">Pilih Status</option>
+
+                                                    <option value="Hidup">
+                                                        Hidup</option>
+                                                    <option value="Meninggal">
+                                                        Meninggal</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+
+
+
 
                                 <div class="d-grid gap-2 mt-3">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -121,5 +121,14 @@
     </div>
 </div>
 
+
+<script>
+$(document).ready(function() {
+    $('.select2').select2({
+        placeholder: "Pilih Orang Tua",
+        allowClear: true
+    });
+});
+</script>
 
 @endsection

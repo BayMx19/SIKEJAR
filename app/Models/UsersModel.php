@@ -27,4 +27,9 @@ class UsersModel extends Model
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];}
+    ];
+    public function anak()
+    {
+        return $this->belongsTo(AnakModel::class, 'users_id', 'id');
+    }
+}

@@ -56,8 +56,8 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">NIK</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="NIK" maxlength="16"
-                                                    autocomplete="off">
+                                                <input type="text" class="form-control" name="NIK" minlength="16"
+                                                    maxlength="16" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -94,6 +94,8 @@
                                             <label class="col-sm-3 col-form-label">Role</label>
                                             <div class="col-sm-9">
                                                 <select class="form-select" name="role" required>
+                                                    <option value="">Pilih Role</option>
+
                                                     <option value="User">
 
                                                         User</option>
@@ -112,6 +114,8 @@
                                             <label class="col-sm-3 col-form-label">Status</label>
                                             <div class="col-sm-9">
                                                 <select class="form-select" name="status">
+                                                    <option value="">Pilih Status</option>
+
                                                     <option value="ACTIVE">
                                                         ACTIVE</option>
                                                     <option value="INACTIVE">
