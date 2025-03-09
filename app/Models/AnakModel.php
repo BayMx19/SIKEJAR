@@ -34,5 +34,11 @@ class AnakModel extends Model
         return $this->hasMany(StatusImunisasiModel::class, 'anak_id', 'id');
     }
 
+    public function imunisasi()
+    {
+        return $this->hasOne(StatusImunisasiModel::class, 'anak_id', 'id')->latest();
+    }
+
+
 
 }

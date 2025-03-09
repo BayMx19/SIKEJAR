@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>{{ $item->nama_anak }}</td>
                                     <td>{{ date('d-m-Y', strtotime($item->tanggal_lahir_anak)) }}</td>
-                                    <td>{{ $item->status_imunisasi }}</td>
+                                    <td>{{ $item->imunisasi->status }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -27,15 +27,17 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-    // Jika User (Orang Tua), ambil data anak berdasarkan users_id
-    if ($user->role == 'User') {
-        $anak = AnakModel::where('users_id', $user->id)
-                         ->with('imunisasi') // Pastikan relasi dengan tabel imunisasi ada
-                         ->get();
-    } else {
-        $anak = [];
-    }
+        // Jika User (Orang Tua), ambil data anak berdasarkan user_id
+        if ($user->role == 'User') {
+            $anak = AnakModel::where('users_id', $user->id)
+                             ->with(['imunisasi' => function ($query) {
+                                 $query->latest(); // Ambil data imunisasi terbaru
+                             }])
+                             ->get();
+        } else {
+            $anak = collect(); // Ubah ke koleksi kosong agar tetap bisa diproses di view
+        }
 
         return view('home', compact('anak'));
     }
-}
+    }
