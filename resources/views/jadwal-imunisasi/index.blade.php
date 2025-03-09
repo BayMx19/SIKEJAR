@@ -19,7 +19,7 @@
         </div>
         @endif
         <div class="page-header">
-            <h3 class="page-title"> Master Anak </h3>
+            <h3 class="page-title"> Jadwal Imunisasi </h3>
             <nav aria-label="breadcrumb">
             </nav>
         </div>
@@ -32,28 +32,26 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama Anak</th>
-                                    <th>Nama Orang Tua</th>
-                                    <th>Tanggal Lahir</th>
-                                    <th>Jenis Kelamin</th>
+                                    <th>Tanggal Imunisasi</th>
+                                    <th>Jenis Imunisasi</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($anak as $anak)
+                                @foreach($jadwal as $jadwal)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $anak->nama_anak}}</td>
-                                    <td>{{ $anak->users->nama }}</td>
-                                    <td>{{ date('d-m-Y', strtotime($anak->tanggal_lahir_anak)) }}</td>
-                                    <td>{{ $anak->jenis_kelamin }}</td>
-                                    <td>{{ $anak->status }}</td>
+                                    <td>{{ $jadwal->anak->nama_anak }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($jadwal->tanggal_imunisasi)) }}</td>
+                                    <td>{{ $jadwal->jenis_imunisasi }}</td>
+                                    <td>{{ $jadwal->status }}</td>
                                     <td>
-                                        <a href="{{ route('master-anak.edit', $anak->id) }}"
+                                        <a href="{{ route('jadwal-imunisasi.edit', $jadwal->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
-                                        <form action="{{ route('master-anak.destroy', $anak->id) }}" method="POST"
-                                            style="display:inline;">
+                                        <form action="{{ route('jadwal-imunisasi.destroy', $jadwal->id) }}"
+                                            method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
@@ -69,7 +67,7 @@
             </div>
         </div>
         <!-- Floating Button -->
-        <a href="{{ route('master-anak.create') }}" class="btn btn-primary floating-btn">
+        <a href="{{ route('jadwal-imunisasi.create') }}" class="btn btn-primary floating-btn">
             <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
         </a>
     </div>

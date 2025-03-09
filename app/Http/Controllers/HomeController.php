@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnakModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+
+    // Jika User (Orang Tua), ambil data anak berdasarkan users_id
+    if ($user->role == 'User') {
+        $anak = AnakModel::where('users_id', $user->id)
+                         ->with('imunisasi') // Pastikan relasi dengan tabel imunisasi ada
+                         ->get();
+    } else {
+        $anak = [];
+    }
+
+        return view('home', compact('anak'));
     }
 }

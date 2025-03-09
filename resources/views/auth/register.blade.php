@@ -10,7 +10,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <title>SIKEJAR</title>
+    <title>Posyandu Jambu</title>
     <link rel="icon" href="assets/images/LogoPosyandu.png">
 
     <style>

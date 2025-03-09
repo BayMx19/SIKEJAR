@@ -19,9 +19,16 @@
         </div>
         @endif
         <div class="page-header">
-            <h3 class="page-title"> Master Anak </h3>
+            <h3 class="page-title"> Status Imunisasi </h3>
             <nav aria-label="breadcrumb">
             </nav>
+            <!-- Search Form -->
+            <form action="{{ route('status-imunisasi') }}" method="GET" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" placeholder="Cari Nama Anak..."
+                    value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary me-2">Cari</button>
+                <a href="{{ route('status-imunisasi') }}" class="btn btn-secondary">Reset</a>
+            </form>
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -32,28 +39,39 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama Anak</th>
-                                    <th>Nama Orang Tua</th>
                                     <th>Tanggal Lahir</th>
-                                    <th>Jenis Kelamin</th>
+                                    <th>Nama Orang Tua</th>
+                                    <th>Alamat</th>
+                                    <th>Tanggal Imunisasi</th>
+                                    <th>Jenis Imunisasi</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($anak as $anak)
+                                @foreach($status as $status)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $anak->nama_anak}}</td>
-                                    <td>{{ $anak->users->nama }}</td>
-                                    <td>{{ date('d-m-Y', strtotime($anak->tanggal_lahir_anak)) }}</td>
-                                    <td>{{ $anak->jenis_kelamin }}</td>
-                                    <td>{{ $anak->status }}</td>
+                                    <td>{{ $status->anak->nama_anak }}</td>
+                                    <td>{{ $status->anak->tanggal_lahir_anak }}</td>
+                                    <td>{{ $status->anak->users->nama }}</td>
+                                    <td>{{ $status->anak->users->alamat }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($status->tanggal_imunisasi)) }}</td>
+                                    <td>{{ $status->jenis_imunisasi }}</td>
                                     <td>
-                                        <a href="{{ route('master-anak.edit', $anak->id) }}"
-                                            class="btn btn-warning btn-sm me-2">Edit</a>
+                                        @if($status->status == 'Tertinggal')
+                                        <span class="text-danger fw-bold">{{ $status->status }}</span>
+                                        @elseif($status->status == 'Sudah')
+                                        <span class="text-success fw-bold">{{ $status->status }}</span>
+                                        @else
+                                        <span>{{ $status->status }}</span>
+                                        @endif
+                                    <td>
+                                        <a href="{{ route('status-imunisasi.detail', $status->id) }}"
+                                            class="btn btn-warning btn-sm me-2">Lihat</a>
 
-                                        <form action="{{ route('master-anak.destroy', $anak->id) }}" method="POST"
-                                            style="display:inline;">
+                                        <form action="{{ route('status-imunisasi.destroy', $status->id) }}"
+                                            method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
@@ -68,10 +86,7 @@
                 </div>
             </div>
         </div>
-        <!-- Floating Button -->
-        <a href="{{ route('master-anak.create') }}" class="btn btn-primary floating-btn">
-            <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
-        </a>
+
     </div>
 </div>
 

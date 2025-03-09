@@ -23,4 +23,16 @@ class AnakModel extends Model
     {
         return $this->belongsTo(UsersModel::class, 'users_id', 'id');
     }
+
+    public function jadwalImunisasi()
+    {
+        return $this->hasMany(JadwalImunisasiModel::class, 'anak_id', 'id');
+    }
+
+    public function statusImunisasi()
+    {
+        return $this->hasMany(StatusImunisasiModel::class, 'anak_id', 'id');
+    }
+
+
 }

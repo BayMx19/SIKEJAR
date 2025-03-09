@@ -62,6 +62,50 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <!-- Alamat -->
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Alamat</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="alamat"
+                                                    autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- RT -->
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">RT</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="RT" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- RW -->
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">RW</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="RW" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Nomor Telepon -->
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Nomor Telepon</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" class="form-control" name="nomor_telepon"
+                                                    autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <!-- Password -->
                                     <div class="col-md-6">
@@ -87,18 +131,8 @@
 
 
 
-                                <div class="row">
 
-                                    <!-- Nomor Telepon -->
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nomor Telepon</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" name="nomor_telepon"
-                                                    autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="row">
                                     <!-- Role -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -118,10 +152,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <!-- Status -->
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Status</label>
                                             <div class="col-sm-9">
@@ -137,20 +170,22 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="d-grid gap-2 mt-3">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                             </form>
-
                         </div>
+
+
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
 </div>
+</div>
+
 
 
 

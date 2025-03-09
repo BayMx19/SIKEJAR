@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class JadwalImunisasiModel extends Model
+class StatusImunisasiModel extends Model
 {
     use HasFactory, Notifiable;
     protected $table = 'imunisasi';
@@ -22,7 +22,4 @@ class JadwalImunisasiModel extends Model
     public function anak()
     {
         return $this->belongsTo(AnakModel::class, 'anak_id', 'id');
-    }
-
-
-}
+    }}

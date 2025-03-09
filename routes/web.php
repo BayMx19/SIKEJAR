@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AnakController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JadwalImunisasiController;
+use App\Http\Controllers\StatusImunisasiController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,3 +41,15 @@ Route::post('/master-anak/store', [AnakController::class, 'store'])->name('maste
 Route::get('/master-anak/{id}/edit', [AnakController::class, 'edit'])->name('master-anak.edit');
 Route::put('/master-anak/{id}', [AnakController::class, 'update'])->name('master-anak.update');
 Route::delete('/master-anak/{id}', [AnakController::class, 'destroy'])->name('master-anak.destroy');
+
+Route::get('/jadwal-imunisasi', [JadwalImunisasiController::class, 'index'])->name('jadwal-imunisasi');
+Route::get('/jadwal-imunisasi/create', [JadwalImunisasiController::class, 'create'])->name('jadwal-imunisasi.create');
+Route::post('/jadwal-imunisasi/store', [JadwalImunisasiController::class, 'store'])->name('jadwal-imunisasi.store');
+Route::get('/jadwal-imunisasi/{id}/edit', [JadwalImunisasiController::class, 'edit'])->name('jadwal-imunisasi.edit');
+Route::put('/jadwal-imunisasi/{id}', [JadwalImunisasiController::class, 'update'])->name('jadwal-imunisasi.update');
+Route::delete('/jadwal-imunisasi/{id}', [JadwalImunisasiController::class, 'destroy'])->name('jadwal-imunisasi.destroy');
+
+Route::get('/status-imunisasi', [StatusImunisasiController::class, 'index'])->name('status-imunisasi');
+Route::get('/status-imunisasi/{id}/detail', [StatusImunisasiController::class, 'detail'])->name('status-imunisasi.detail');
+Route::put('/status-imunisasi/{id}', [StatusImunisasiController::class, 'update'])->name('status-imunisasi.update');
+Route::delete('/status-imunisasi/{id}', [StatusImunisasiController::class, 'destroy'])->name('status-imunisasi.destroy');

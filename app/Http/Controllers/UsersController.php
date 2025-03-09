@@ -32,6 +32,9 @@ class UsersController extends Controller
                 'nama' => $request->nama,
                 'NIK' => $request->NIK,
                 'nomor_telepon' => $request->nomor_telepon,
+                'alamat' => $request->alamat,
+                'RT' => $request->RT,
+                'RW' => $request->RW,
                 'role' => $request->role,
                 'status' => $request->status,
             ]);
@@ -62,6 +65,9 @@ class UsersController extends Controller
                 'nama' => $request->nama,
                 'NIK' => $request->NIK,
                 'nomor_telepon' => $request->nomor_telepon,
+                'alamat' => $request->alamat,
+                'RT' => $request->RT,
+                'RW' => $request->RW,
                 'role' => $request->role,
                 'status' => $request->status,
         ]);
