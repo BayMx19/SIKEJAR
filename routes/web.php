@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnakController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalImunisasiController;
 use App\Http\Controllers\StatusImunisasiController;
@@ -26,6 +27,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/get-imunisasi/{anakId}', [HomeController::class, 'getImunisasi']);
+Route::post('/feedback/storedashboard', [FeedbackController::class, 'storeDashboard'])->name('feedback.storedashboard');
 
 Route::get('/master-users', [UsersController::class, 'index'])->name('master-users');
 Route::get('/master-users/create', [UsersController::class, 'create'])->name('master-users.create');
@@ -53,3 +56,12 @@ Route::get('/status-imunisasi', [StatusImunisasiController::class, 'index'])->na
 Route::get('/status-imunisasi/{id}/detail', [StatusImunisasiController::class, 'detail'])->name('status-imunisasi.detail');
 Route::put('/status-imunisasi/{id}', [StatusImunisasiController::class, 'update'])->name('status-imunisasi.update');
 Route::delete('/status-imunisasi/{id}', [StatusImunisasiController::class, 'destroy'])->name('status-imunisasi.destroy');
+
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
+Route::get('/feedback/create', [FeedbackController::class, 'create'])->name('feedback.create');
+Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
+
+Route::get('/feedback/{id}/edit', [FeedbackController::class, 'edit'])->name('feedback.edit');
+Route::get('/feedback/{id}/detail', [FeedbackController::class, 'detail'])->name('feedback.detail');
+Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
+Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');

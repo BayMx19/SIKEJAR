@@ -23,7 +23,7 @@
                                 <tr>
                                     <th>Nama Anak</th>
                                     <th>Tanggal Lahir</th>
-                                    <th>Status Imunisasi</th>
+                                    <th>Detail Imunisasi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,7 +31,10 @@
                                 <tr>
                                     <td>{{ $item->nama_anak }}</td>
                                     <td>{{ date('d-m-Y', strtotime($item->tanggal_lahir_anak)) }}</td>
-                                    <td>{{ $item->imunisasi->status }}</td>
+                                    <td><button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#imunisasiModal" onclick="loadImunisasi({{ $item->id }})">
+                                            Detail
+                                        </button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -41,12 +44,104 @@
                         <p>Selamat bertugas!</p>
                         @endif
                     </div>
+
+                    <!-- Modal Detail Imunisasi -->
+                    <div class="modal fade" id="imunisasiModal" tabindex="-1" aria-labelledby="modalTitle"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalTitle">Detail Imunisasi</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Tanggal Imunisasi</th>
+                                                <th>Jenis Imunisasi</th>
+                                                <th>Status</th>
+                                                <th>Feedback</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="imunisasiData">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- Form Feedback -->
+                                    <form id="feedbackForm" action="{{ route('feedback.storedashboard') }}"
+                                        method="POST" style="width: 100%; display: none;">
+                                        @csrf
+                                        <input type="hidden" name="imunisasi_id" id="feedbackImunisasiId">
+                                        <input type="hidden" name="users_id" value="{{ Auth::user()->id }}">
+
+                                        <div class="input-group">
+                                            <input type="text" name="komentar" class="form-control"
+                                                placeholder="Masukkan feedback..." required>
+                                            <button type="submit" class="btn btn-primary">Kirim</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+function showFeedbackForm(imunisasiId) {
+    document.getElementById("feedbackImunisasiId").value = imunisasiId;
+    document.getElementById("feedbackForm").style.display = "block";
+}
 
+function loadImunisasi(anakId) {
+    // Kosongkan tabel sebelum mengisi data baru
+    document.getElementById("imunisasiData").innerHTML = "<tr><td colspan='5'>Loading...</td></tr>";
+
+    // Panggil endpoint untuk mendapatkan data imunisasi berdasarkan anak_id
+    fetch(`/get-imunisasi/${anakId}`)
+        .then(response => response.json())
+        .then(data => {
+            let rows = "";
+            if (data.length > 0) {
+                data.forEach(imunisasi => {
+                    rows += `
+                        <tr>
+                            <td>${imunisasi.tanggal_imunisasi}</td>
+                            <td>${imunisasi.jenis_imunisasi}</td>
+                            <td>
+                                <span class="badge ${imunisasi.status === 'Sudah' ? 'bg-success' : imunisasi.status === 'Tertinggal' ? 'bg-danger' : 'bg-secondary'}">
+                                    ${imunisasi.status}
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackForm(${imunisasi.id})">
+                                    Isi Feedback
+                                </button>
+                                <a href="/status-imunisasi/${imunisasi.id}/detail" class="btn btn-sm btn-info">
+                                    Detail
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                rows = "<tr><td colspan='5' class='text-center'>Tidak ada data imunisasi</td></tr>";
+            }
+            document.getElementById("imunisasiData").innerHTML = rows;
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            document.getElementById("imunisasiData").innerHTML =
+                "<tr><td colspan='5' class='text-danger'>Gagal mengambil data.</td></tr>";
+        });
+}
+</script>
 
 
 @endsection

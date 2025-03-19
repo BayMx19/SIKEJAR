@@ -24,5 +24,10 @@ class JadwalImunisasiModel extends Model
         return $this->belongsTo(AnakModel::class, 'anak_id', 'id');
     }
 
+    public function feedback()
+    {
+        return $this->hasOne(FeedbackModel::class, 'imunisasi_id');
+    }
+
 
 }

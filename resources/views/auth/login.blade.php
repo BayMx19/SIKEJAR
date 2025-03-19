@@ -212,6 +212,7 @@
                             <div class="header-login">
                                 <h3 class="text-header">Masuk</h3>
                             </div>
+
                             <div class="container ">
                                 <div class="row login-form">
                                     <form class="mt-2" method="POST" action="{{ route('login') }}">
@@ -243,7 +244,19 @@
                                                     </div>
                                                 </div></button>
 
+                                        </div><br>
+                                        @if ($errors->any())
+                                        <div class="alert alert-danger"
+                                            style="height:20px !important; padding: 0px 1rem !important"
+                                            id="login-alert">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                <p class="margin-top: 0px !important; margin-bottom: 0px !important;">
+                                                    Email / Password Salah</p>
+                                                @endforeach
+                                            </ul>
                                         </div>
+                                        @endif
                                     </form>
 
                                 </div>
@@ -272,6 +285,16 @@
             passwordInput.type = "password";
         }
     }
+    </script>
+    <script>
+    setTimeout(function() {
+        var alert = document.getElementById("login-alert");
+        if (alert) {
+            alert.style.transition = "opacity 0.5s ease-out";
+            alert.style.opacity = "0";
+            setTimeout(() => alert.remove(), 500);
+        }
+    }, 5000);
     </script>
 
 </body>

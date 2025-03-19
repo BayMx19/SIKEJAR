@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnakModel;
+use App\Models\ImunisasiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,7 @@ class HomeController extends Controller
         if ($user->role == 'User') {
             $anak = AnakModel::where('users_id', $user->id)
                              ->with(['imunisasi' => function ($query) {
-                                 $query->latest(); // Ambil data imunisasi terbaru
+                                 $query->latest()->limit(3); // Ambil data imunisasi terbaru
                              }])
                              ->get();
         } else {
@@ -40,4 +41,17 @@ class HomeController extends Controller
 
         return view('home', compact('anak'));
     }
+
+    public function getImunisasi($anakId)
+{
+    $imunisasi = ImunisasiModel::where('anak_id', $anakId)
+        ->orderBy('tanggal_imunisasi', 'desc') // Urutkan dari yang terbaru
+        ->take(3) // Ambil hanya 3 data terbaru
+        ->get();
+
+    return response()->json($imunisasi);
+}
+
+
+
     }

@@ -17,9 +17,16 @@ class StatusImunisasiModel extends Model
         'tanggal_lahir_anak',
         'jenis_kelamin',
         'status',
+        'jadwal_imunisasi'
     ];
 
     public function anak()
     {
         return $this->belongsTo(AnakModel::class, 'anak_id', 'id');
-    }}
+    }
+    public function feedback()
+    {
+        return $this->hasOne(FeedbackModel::class, 'imunisasi_id');
+    }
+
+}

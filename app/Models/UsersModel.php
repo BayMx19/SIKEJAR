@@ -36,4 +36,9 @@ class UsersModel extends Model
     {
         return $this->belongsTo(AnakModel::class, 'users_id', 'id');
     }
+
+    public function feedback()
+    {
+        return $this->belongsTo(FeedbackModel::class, 'users_id', 'id');
+    }
 }
