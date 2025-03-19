@@ -176,17 +176,22 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Status Imunisasi</label>
                                             <div class="col-sm-9">
+                                                @if(Auth::user()->role == 'Kader')
                                                 <select class="form-select" name="status">
                                                     <option value="Belum"
-                                                        {{ (old('status', $jadwal->status ?? '') == 'Belum') ? 'selected' : '' }}>
+                                                        {{ (old('status', $status->status ?? '') == 'Belum') ? 'selected' : '' }}>
                                                         Belum</option>
                                                     <option value="Sudah"
-                                                        {{ (old('status', $jadwal->status ?? '') == 'Sudah') ? 'selected' : '' }}>
+                                                        {{ (old('status', $status->status ?? '') == 'Sudah') ? 'selected' : '' }}>
                                                         Sudah</option>
                                                     <option value="Tertinggal"
-                                                        {{ (old('status', $jadwal->status ?? '') == 'Tertinggal') ? 'selected' : '' }}>
+                                                        {{ (old('status', $status->status ?? '') == 'Tertinggal') ? 'selected' : '' }}>
                                                         Tertinggal</option>
                                                 </select>
+                                                @else
+                                                <input type="text" class="form-control" value="{{ $status->status }}"
+                                                    readonly>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -207,9 +212,11 @@
 
 
 
+                                @if(Auth::user()->role == 'Kader' || Auth::user()->role == 'SuperAdmin')
                                 <div class="d-grid gap-2 mt-3">
                                     <button type="submit" class="btn btn-primary">Ubah Status Imunisasi</button>
                                 </div>
+                                @endif
                             </form>
 
                         </div>
