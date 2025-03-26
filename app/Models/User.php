@@ -22,8 +22,14 @@ class User extends Authenticatable
         'email',
         'nama',
         'NIK',
-        'role',
+        'nomor_telepon',
+        'alamat',
+        'RT',
+        'RW',
         'password',
+        'role',
+        'status',
+        'fcm_token',
     ];
 
     /**

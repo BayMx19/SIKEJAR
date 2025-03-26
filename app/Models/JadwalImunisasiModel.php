@@ -17,6 +17,9 @@ class JadwalImunisasiModel extends Model
         'tanggal_lahir_anak',
         'jenis_kelamin',
         'status',
+        'tanggal_imunisasi',
+        'jenis_imunisasi',
+        'keterangan'
     ];
 
     public function anak()
@@ -28,6 +31,14 @@ class JadwalImunisasiModel extends Model
     {
         return $this->hasOne(FeedbackModel::class, 'imunisasi_id');
     }
+    protected $jadwal;
 
+
+
+    public function index()
+    {
+        $data = $this->jadwal->all();
+        return view('jadwal-imunisasi.index', compact('data'));
+    }
 
 }

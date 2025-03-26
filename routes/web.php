@@ -1,13 +1,17 @@
 <?php
 
+use App\Helpers\FirebaseHelper;
 use App\Http\Controllers\AnakController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalImunisasiController;
 use App\Http\Controllers\StatusImunisasiController;
 use App\Http\Controllers\UsersController;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\UsersModel;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,3 +73,7 @@ Route::get('/feedback/{id}/edit', [FeedbackController::class, 'edit'])->name('fe
 Route::get('/feedback/{id}/detail', [FeedbackController::class, 'detail'])->name('feedback.detail');
 Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
 Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
+
+
+
+Route::post('/save-token', [UsersController::class, 'saveToken'])->middleware('auth');

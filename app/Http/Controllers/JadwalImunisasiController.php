@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\JadwalImunisasiEvent;
 use App\Models\AnakModel;
 use App\Models\JadwalImunisasiModel;
+use App\Models\User;
 use App\Models\UsersModel;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Google\Client;
+use Illuminate\Support\Facades\Log;
 
 class JadwalImunisasiController extends Controller
 {
@@ -32,22 +37,85 @@ class JadwalImunisasiController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
+
         try{
-            DB::table('imunisasi')->insert([
+            $jadwal = JadwalImunisasiModel::create([
                 'anak_id' => $request->anak_id,
                 'tanggal_imunisasi' => $request->tanggal_imunisasi,
                 'jenis_imunisasi' => $request->jenis_imunisasi,
                 'keterangan' => $request->keterangan,
                 'status' => "Belum",
             ]);
+            $anak = AnakModel::find($request->anak_id);
 
+            if ($anak && $anak->users_id) {
+                $user = UsersModel::find($anak->users_id);
+
+                if ($user && $user->fcm_token) {
+                    $this->sendFCMNotification($user->fcm_token, $jadwal);
+                }
+            }
+            event(new JadwalImunisasiEvent($jadwal));
             // Redirect kembali dengan pesan sukses
             return redirect('/jadwal-imunisasi')->with('success', 'Jadwal Imunisasi Anak berhasil ditambahkan.');
         } catch (QueryException $e) {
-            return redirect('/jadwal-imunisasi')->with('error', 'Gagal menambahkan Jadwal Imunisasi Anak: Coba Lagi' );
+            return redirect('/jadwal-imunisasi')->with('error', 'Gagal menambahkan Jadwal Imunisasi Anak: Coba Lagi' . $e->getMessage() );
         }
 
 
+    }
+    function getFCMToken()
+    {
+        $keyFilePath = storage_path('app/sikejar-posyandujambu-57a85bd5ac0b.json');
+
+        if (!file_exists($keyFilePath)) {
+            Log::error('Firebase Service Account JSON not found.');
+            return null;
+        }
+
+        $client = new Client();
+        $client->setAuthConfig($keyFilePath);
+        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+
+        try {
+            $token = $client->fetchAccessTokenWithAssertion();
+            return $token['access_token'] ?? null;
+        } catch (\Exception $e) {
+            Log::error('Error fetching FCM token: ' . $e->getMessage());
+            return null;
+        }
+    }
+    private function sendFCMNotification($fcmToken, $jadwal)
+    {
+        $accessToken = $this->getFCMToken();
+
+        if (!$accessToken) {
+            return;
+        }
+
+        $fcmUrl = 'https://fcm.googleapis.com/v1/projects/sikejar-posyandujambu/messages:send';
+        $anak = DB::table('master_anak')->where('id', $jadwal->anak_id)->first();
+        $namaAnak = $anak ? $anak->nama_anak : 'Anak';
+
+        $postData = [
+            "message" => [
+                "token" => $fcmToken,
+                "notification" => [
+                    "title" => "Jadwal Imunisasi Baru!",
+                    "body" => "Jadwal imunisasi untuk {$namaAnak} ({$jadwal->jenis_imunisasi}) telah ditetapkan pada {$jadwal->tanggal_imunisasi}. Harap datang tepat waktu!"                ],
+                "data" => [
+                    "nama_anak" => $namaAnak,
+                    "jenis_imunisasi" => $jadwal->jenis_imunisasi,
+                    "tanggal" => $jadwal->tanggal_imunisasi
+                ]
+            ]
+        ];
+
+        Http::withHeaders([
+            'Authorization' => 'Bearer ' . $accessToken,
+            'Content-Type' => 'application/json',
+        ])->post($fcmUrl, $postData);
     }
 
     // Menampilkan form edit
@@ -79,5 +147,11 @@ class JadwalImunisasiController extends Controller
         $jadwal->delete();
 
         return redirect('jadwal-imunisasi')->with('success', 'Jadwal Imunisasi Anak berhasil dihapus!');
+    }
+    protected $jadwal;
+
+    public function __construct(JadwalImunisasiModel $jadwal)
+    {
+        $this->jadwal = $jadwal;
     }
 }

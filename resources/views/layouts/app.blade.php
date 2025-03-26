@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -59,6 +58,68 @@
             @yield('content')
         </div>
     </div>
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+            .register("/firebase-messaging-sw.js")
+            .then((registration) => {
+                console.log("Service Worker registered with scope:", registration.scope);
+            })
+            .catch((err) => {
+                console.log("Service Worker registration failed:", err);
+            });
+    }
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey: "AIzaSyCmrjTfjNQOxAaBDgGqJfQtXLYhIuQVutA",
+                authDomain: "sikejar-posyandujambu.firebaseapp.com",
+                projectId: "sikejar-posyandujambu",
+                storageBucket: "sikejar-posyandujambu.firebasestorage.app",
+                messagingSenderId: "72658758149",
+                appId: "1:72658758149:web:c1af0cbc40018d416e8a6c",
+                measurementId: "G-N9B29B3594"
+            });
+        }
+
+        const messaging = firebase.messaging();
+
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+                console.log("Izin diberikan");
+
+                const token = await messaging.getToken({
+                    vapidKey: "BCtiO2styu7pAFkLAis1O5mnCYT3Q41hQN1R4c-Qtj5CyauoSw3ua8fh5v4L3878A-IxwUCf-B322A5cJq-G1Cw"
+                });
+                console.log("FCM Token:", token);
+
+                // Kirim token ke backend untuk disimpan
+                fetch("/save-token", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            token: token
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log("Token saved:", data))
+                    .catch(error => console.error("Error saving token:", error));
+            } else {
+                console.log("Izin ditolak oleh user.");
+            }
+        } catch (err) {
+            console.error("Gagal mendapatkan izin notifikasi", err);
+        }
+    });
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="{{asset('assets/vendors/js/vendor.bundle.base.js')}}"></script>

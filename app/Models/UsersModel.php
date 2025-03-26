@@ -22,6 +22,7 @@ class UsersModel extends Model
         'password',
         'role',
         'status',
+        'fcm_token',
     ];
 
     protected $hidden = [

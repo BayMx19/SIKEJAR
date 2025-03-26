@@ -145,6 +145,21 @@ function loadImunisasi(anakId) {
         });
 }
 </script>
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script>
+// Pastikan koneksi ke Pusher
+Pusher.logToConsole = true;
 
+var pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
+    cluster: "{{ env('PUSHER_APP_CLUSTER') }}",
+    encrypted: true
+});
+
+var channel = pusher.subscribe('imunisasi-channel');
+channel.bind('jadwal-imunisasi', function(data) {
+    // console.log("📢 Notifikasi diterima:", data);
+    alert("🔔 Jadwal imunisasi baru untuk anak anda telah ditambahkan!");
+});
+</script>
 
 @endsection

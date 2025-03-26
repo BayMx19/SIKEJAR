@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\UsersModel;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -88,5 +89,20 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect('master-users')->with('success', 'Data berhasil dihapus!');
+    }
+
+    public function saveToken(Request $request)
+    {
+        $request->validate([
+            'token' => 'required|string'
+        ]);
+
+        $user = Auth::user();
+        if ($user) {
+            $user->update(['fcm_token' => $request->token]);
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['error' => 'User not authenticated'], 401);
     }
 }
