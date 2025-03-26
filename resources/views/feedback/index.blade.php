@@ -47,6 +47,7 @@
                                     <td>
                                         <a href="{{ route('feedback.detail', $feedback->id) }}"
                                             class="btn btn-primary btn-sm me-2">Detail</a>
+                                        @if(Auth::user()->role == 'Kader' )
 
                                         <a href="{{ route('feedback.edit', $feedback->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
@@ -58,6 +59,7 @@
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -67,10 +69,13 @@
                 </div>
             </div>
         </div>
+        @if(Auth::user()->role == 'SuperAdmin' )
+
         <!-- Floating Button -->
         <a href="{{ route('feedback.create') }}" class="btn btn-primary floating-btn">
             <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
         </a>
+        @endif
     </div>
 </div>
 

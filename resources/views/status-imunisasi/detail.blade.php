@@ -212,7 +212,7 @@
 
 
 
-                                @if(Auth::user()->role == 'Kader' || Auth::user()->role == 'SuperAdmin')
+                                @if(Auth::user()->role == 'Kader' )
                                 <div class="d-grid gap-2 mt-3">
                                     <button type="submit" class="btn btn-primary">Ubah Status Imunisasi</button>
                                 </div>

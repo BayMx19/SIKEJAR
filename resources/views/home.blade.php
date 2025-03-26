@@ -15,7 +15,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Selamat Datang, {{ Auth::user()->nama }}!</h4>
-
                         @if(Auth::user()->role == 'User')
                         <p>Berikut adalah data anak Anda:</p>
                         <table class="table table-bordered">
@@ -24,6 +23,7 @@
                                     <th>Nama Anak</th>
                                     <th>Tanggal Lahir</th>
                                     <th>Detail Imunisasi</th>
+                                    <th>Data Anak</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,6 +35,9 @@
                                             data-bs-target="#imunisasiModal" onclick="loadImunisasi({{ $item->id }})">
                                             Detail
                                         </button></td>
+                                    <td><a href="{{ route('master-anak.detail', $item->id) }}"
+                                            class="btn btn-primary btn-sm me-2">Detail</a></td>
+
                                 </tr>
                                 @endforeach
                             </tbody>

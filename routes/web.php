@@ -29,11 +29,13 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/get-imunisasi/{anakId}', [HomeController::class, 'getImunisasi']);
 Route::post('/feedback/storedashboard', [FeedbackController::class, 'storeDashboard'])->name('feedback.storedashboard');
+Route::get('/master-anak/{id}/detail', [HomeController::class, 'detail'])->name('master-anak.detail');
 
 Route::get('/master-users', [UsersController::class, 'index'])->name('master-users');
 Route::get('/master-users/create', [UsersController::class, 'create'])->name('master-users.create');
 Route::post('/master-users/store', [UsersController::class, 'store'])->name('master-users.store');
 Route::get('/master-users/{id}/edit', [UsersController::class, 'edit'])->name('master-users.edit');
+Route::get('/master-users/{id}/detail', [UsersController::class, 'detail'])->name('master-users.detail');
 Route::put('/master-users/{id}', [UsersController::class, 'update'])->name('master-users.update');
 Route::delete('/master-users/{id}', [UsersController::class, 'destroy'])->name('master-users.destroy');
 
@@ -42,6 +44,7 @@ Route::get('/master-anak', [AnakController::class, 'index'])->name('master-anak'
 Route::get('/master-anak/create', [AnakController::class, 'create'])->name('master-anak.create');
 Route::post('/master-anak/store', [AnakController::class, 'store'])->name('master-anak.store');
 Route::get('/master-anak/{id}/edit', [AnakController::class, 'edit'])->name('master-anak.edit');
+Route::get('/master-anak/{id}/detail', [AnakController::class, 'detail'])->name('master-anak.detail');
 Route::put('/master-anak/{id}', [AnakController::class, 'update'])->name('master-anak.update');
 Route::delete('/master-anak/{id}', [AnakController::class, 'destroy'])->name('master-anak.destroy');
 
@@ -49,6 +52,7 @@ Route::get('/jadwal-imunisasi', [JadwalImunisasiController::class, 'index'])->na
 Route::get('/jadwal-imunisasi/create', [JadwalImunisasiController::class, 'create'])->name('jadwal-imunisasi.create');
 Route::post('/jadwal-imunisasi/store', [JadwalImunisasiController::class, 'store'])->name('jadwal-imunisasi.store');
 Route::get('/jadwal-imunisasi/{id}/edit', [JadwalImunisasiController::class, 'edit'])->name('jadwal-imunisasi.edit');
+Route::get('/jadwal-imunisasi/{id}/detail', [JadwalImunisasiController::class, 'detail'])->name('jadwal-imunisasi.detail');
 Route::put('/jadwal-imunisasi/{id}', [JadwalImunisasiController::class, 'update'])->name('jadwal-imunisasi.update');
 Route::delete('/jadwal-imunisasi/{id}', [JadwalImunisasiController::class, 'destroy'])->name('jadwal-imunisasi.destroy');
 

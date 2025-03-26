@@ -69,6 +69,7 @@
                                     <td>
                                         <a href="{{ route('status-imunisasi.detail', $status->id) }}"
                                             class="btn btn-warning btn-sm me-2">Lihat</a>
+                                        @if(Auth::user()->role == 'Kader' )
 
                                         <form action="{{ route('status-imunisasi.destroy', $status->id) }}"
                                             method="POST" style="display:inline;">
@@ -77,6 +78,7 @@
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

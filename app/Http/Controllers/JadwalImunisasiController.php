@@ -22,6 +22,13 @@ class JadwalImunisasiController extends Controller
         $anak = AnakModel::get();
         return view('/jadwal-imunisasi.create', compact('anak'));
     }
+    public function detail($id)
+    {
+        $jadwal = JadwalImunisasiModel::findOrFail($id);
+        $listanak = AnakModel::all();
+
+        return view('jadwal-imunisasi.detail', compact('jadwal', 'listanak'));
+    }
 
     public function store(Request $request)
     {

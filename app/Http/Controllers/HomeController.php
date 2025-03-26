@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AnakModel;
 use App\Models\ImunisasiModel;
+use App\Models\UsersModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,7 +52,13 @@ class HomeController extends Controller
 
     return response()->json($imunisasi);
 }
+public function detail($id)
+    {
+        $anak = AnakModel::findOrFail($id);
+        $users = UsersModel::where('role', 'User')->get();
 
+        return view('master-anak.detail', compact('anak', 'users'));
+    }
 
 
     }

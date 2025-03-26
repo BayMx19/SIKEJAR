@@ -47,6 +47,9 @@
                                     <td>{{ $jadwal->jenis_imunisasi }}</td>
                                     <td>{{ $jadwal->status }}</td>
                                     <td>
+                                        <a href="{{ route('jadwal-imunisasi.detail', $jadwal->id) }}"
+                                            class="btn btn-primary btn-sm me-2">Detail</a>
+                                        @if(auth()->user()->role === 'Kader')
                                         <a href="{{ route('jadwal-imunisasi.edit', $jadwal->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
@@ -57,6 +60,7 @@
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -66,10 +70,12 @@
                 </div>
             </div>
         </div>
+        @if(auth()->user()->role === 'Kader')
         <!-- Floating Button -->
         <a href="{{ route('jadwal-imunisasi.create') }}" class="btn btn-primary floating-btn">
             <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
         </a>
+        @endif
     </div>
 </div>
 

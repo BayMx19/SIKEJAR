@@ -49,6 +49,8 @@
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->status }}</td>
                                     <td>
+                                        <a href="{{ route('master-users.detail', $user->id) }}"
+                                            class="btn btn-primary btn-sm me-2">Detail</a>
                                         <a href="{{ route('master-users.edit', $user->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 

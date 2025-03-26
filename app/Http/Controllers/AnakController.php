@@ -16,6 +16,14 @@ class AnakController extends Controller
 
         return view('/master-anak.index', compact('anak'));
     }
+
+    public function detail($id)
+    {
+        $anak = AnakModel::findOrFail($id);
+        $users = UsersModel::where('role', 'User')->get();
+
+        return view('master-anak.detail', compact('anak', 'users'));
+    }
     public function create(){
         $users = UsersModel::where('role', 'User')->get();
         $anak = AnakModel::with('users')->get();

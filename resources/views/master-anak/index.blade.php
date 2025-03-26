@@ -49,6 +49,9 @@
                                     <td>{{ $anak->jenis_kelamin }}</td>
                                     <td>{{ $anak->status }}</td>
                                     <td>
+                                        <a href="{{ route('master-anak.detail', $anak->id) }}"
+                                            class="btn btn-primary btn-sm me-2">Detail</a>
+                                        @if(auth()->user()->role === 'Kader')
                                         <a href="{{ route('master-anak.edit', $anak->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
@@ -59,6 +62,7 @@
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -68,10 +72,12 @@
                 </div>
             </div>
         </div>
+        @if(auth()->user()->role === 'Kader')
         <!-- Floating Button -->
         <a href="{{ route('master-anak.create') }}" class="btn btn-primary floating-btn">
             <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
         </a>
+        @endif
     </div>
 </div>
 

@@ -21,6 +21,12 @@ class UsersController extends Controller
         return view('/master-users.create');
     }
 
+    public function detail($id)
+    {
+        $user = UsersModel::findOrFail($id);
+        return view('master-users.detail', compact('user'));
+    }
+
     public function store(Request $request)
     {
 

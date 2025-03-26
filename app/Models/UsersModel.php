@@ -41,4 +41,10 @@ class UsersModel extends Model
     {
         return $this->belongsTo(FeedbackModel::class, 'users_id', 'id');
     }
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
+
 }
