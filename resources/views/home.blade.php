@@ -33,10 +33,10 @@
                                     <td>{{ date('d-m-Y', strtotime($item->tanggal_lahir_anak)) }}</td>
                                     <td><button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#imunisasiModal" onclick="loadImunisasi({{ $item->id }})">
-                                            Detail
+                                            Detail Imunisasi
                                         </button></td>
                                     <td><a href="{{ route('master-anak.detail', $item->id) }}"
-                                            class="btn btn-primary btn-sm me-2">Detail</a></td>
+                                            class="btn btn-primary btn-sm me-2">Detail Anak</a></td>
 
                                 </tr>
                                 @endforeach
