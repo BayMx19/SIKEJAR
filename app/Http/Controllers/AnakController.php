@@ -14,7 +14,7 @@ class AnakController extends Controller
     {
         $anak = AnakModel::with('users')->get();
 
-        return view('/master-anak.index', compact('anak'));
+        return view('master-anak.index', compact('anak'));
     }
 
     public function detail($id)
@@ -27,7 +27,7 @@ class AnakController extends Controller
     public function create(){
         $users = UsersModel::where('role', 'User')->get();
         $anak = AnakModel::with('users')->get();
-        return view('/master-anak.create', compact('users', 'anak'));
+        return view('master-anak.create', compact('users', 'anak'));
     }
 
     public function store(Request $request)
@@ -42,7 +42,6 @@ class AnakController extends Controller
                 'status' => $request->status,
             ]);
 
-            // Redirect kembali dengan pesan sukses
             return redirect('/master-anak')->with('success', 'Anak berhasil ditambahkan.');
         } catch (QueryException $e) {
             return redirect('/master-anak')->with('error', 'Gagal menambahkan Anak: Coba Lagi' );
@@ -51,7 +50,6 @@ class AnakController extends Controller
 
     }
 
-    // Menampilkan form edit
     public function edit($id)
     {
         $anak = AnakModel::findOrFail($id);
@@ -60,7 +58,6 @@ class AnakController extends Controller
         return view('master-anak.edit', compact('anak', 'users'));
     }
 
-    // Mengupdate data
     public function update(Request $request, $id)
     {
 

@@ -12,14 +12,10 @@ class JadwalImunisasiModel extends Model
     protected $table = 'imunisasi';
     protected $fillable = [
         'anak_id',
-        'nama_anak',
-        'NIK_anak',
-        'tanggal_lahir_anak',
-        'jenis_kelamin',
-        'status',
         'tanggal_imunisasi',
         'jenis_imunisasi',
-        'keterangan'
+        'keterangan',
+        'status',
     ];
 
     public function anak()

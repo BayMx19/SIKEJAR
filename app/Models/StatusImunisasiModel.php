@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\ImunisasiModelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -12,12 +13,10 @@ class StatusImunisasiModel extends Model
     protected $table = 'imunisasi';
     protected $fillable = [
         'anak_id',
-        'nama_anak',
-        'NIK_anak',
-        'tanggal_lahir_anak',
-        'jenis_kelamin',
+        'tanggal_imunisasi',
+        'jenis_imunisasi',
+        'keterangan',
         'status',
-        'jadwal_imunisasi'
     ];
 
     public function anak()
@@ -27,6 +26,10 @@ class StatusImunisasiModel extends Model
     public function feedback()
     {
         return $this->hasOne(FeedbackModel::class, 'imunisasi_id');
+    }
+    public static function newFactory()
+    {
+        return ImunisasiModelFactory::new();
     }
 
 }

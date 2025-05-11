@@ -16,20 +16,17 @@ class FeedbackController extends Controller
     {
         $feedback = FeedbackModel::with('users')->get();
 
-        return view('/feedback.index', compact('feedback'));
+        return view('feedback.index', compact('feedback'));
     }
     public function create(){
         $users = UsersModel::where('role', 'User')->get();
-        return view('/feedback.create', compact('users'));
+        return view('feedback.create', compact('users'));
     }
 
     public function store(Request $request)
     {
-        // $tanggalInput = $request->input('tanggal');
         try{
 
-            // $tanggalFormatted = Carbon::createFromFormat('d-m-Y', $tanggalInput)->format('Y-m-d');
-            // dd($tanggalFormatted);
             DB::table('feedback')->insert([
                 'users_id' => $request->users_id,
                 'komentar' => $request->komentar,
@@ -38,7 +35,6 @@ class FeedbackController extends Controller
 
 
 
-            // Redirect kembali dengan pesan sukses
             return redirect('/feedback')->with('success', 'Feedback berhasil ditambahkan.');
         } catch (QueryException $e) {
             return redirect('/feedback')->with('error', 'Gagal menambahkan Feedback: Coba Lagi' . $e->getMessage());
@@ -88,7 +84,7 @@ class FeedbackController extends Controller
 
 
     DB::table('feedback')->insert([
-        'users_id' => Auth::id(), // Ambil ID user yang sedang login
+        'users_id' => Auth::id(),
         'imunisasi_id' => $request->imunisasi_id,
         'komentar' => $request->komentar,
         'created_at' => now(),

@@ -20,12 +20,12 @@ class JadwalImunisasiController extends Controller
     {
         $jadwal = JadwalImunisasiModel::with('anak')->get();
 
-        return view('/jadwal-imunisasi.index', compact('jadwal'));
+        return view('jadwal-imunisasi.index', compact('jadwal'));
     }
 
     public function create(){
         $anak = AnakModel::get();
-        return view('/jadwal-imunisasi.create', compact('anak'));
+        return view('jadwal-imunisasi.create', compact('anak'));
     }
     public function detail($id)
     {

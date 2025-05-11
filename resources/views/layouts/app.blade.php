@@ -92,7 +92,7 @@
                 const token = await messaging.getToken({
                     vapidKey: "BCtiO2styu7pAFkLAis1O5mnCYT3Q41hQN1R4c-Qtj5CyauoSw3ua8fh5v4L3878A-IxwUCf-B322A5cJq-G1Cw"
                 });
-                console.log("FCM Token:", token);
+                // console.log("FCM Token:", token);
 
                 // Kirim token ke backend untuk disimpan
                 fetch("/save-token", {
