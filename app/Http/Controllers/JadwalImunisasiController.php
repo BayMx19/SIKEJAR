@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Http;
 use Google\Client;
 use Illuminate\Support\Facades\Log;
 
+
 class JadwalImunisasiController extends Controller
 {
     public function index()
@@ -87,36 +88,58 @@ class JadwalImunisasiController extends Controller
         }
     }
     private function sendFCMNotification($fcmToken, $jadwal)
-    {
-        $accessToken = $this->getFCMToken();
+{
+    Log::info("Mengirim FCM ke token: {$fcmToken}");
+    $accessToken = $this->getFCMToken();
 
-        if (!$accessToken) {
-            return;
-        }
-
-        $fcmUrl = 'https://fcm.googleapis.com/v1/projects/sikejar-posyandujambu/messages:send';
-        $anak = DB::table('master_anak')->where('id', $jadwal->anak_id)->first();
-        $namaAnak = $anak ? $anak->nama_anak : 'Anak';
-
-        $postData = [
-            "message" => [
-                "token" => $fcmToken,
-                "notification" => [
-                    "title" => "Jadwal Imunisasi Baru!",
-                    "body" => "Jadwal imunisasi untuk {$namaAnak} ({$jadwal->jenis_imunisasi}) telah ditetapkan pada {$jadwal->tanggal_imunisasi}. Harap datang tepat waktu!"                ],
-                "data" => [
-                    "nama_anak" => $namaAnak,
-                    "jenis_imunisasi" => $jadwal->jenis_imunisasi,
-                    "tanggal" => $jadwal->tanggal_imunisasi
-                ]
-            ]
-        ];
-
-        Http::withHeaders([
-            'Authorization' => 'Bearer ' . $accessToken,
-            'Content-Type' => 'application/json',
-        ])->post($fcmUrl, $postData);
+    if (!$accessToken) {
+        \Log::error('Failed to get FCM Access Token');
+        return;
     }
+
+    $fcmUrl = 'https://fcm.googleapis.com/v1/projects/sikejar-posyandujambu/messages:send';
+
+    $anak = DB::table('master_anak')->where('id', $jadwal->anak_id)->first();
+    $namaAnak = $anak ? $anak->nama_anak : 'Anak';
+
+    $postData = [
+        "message" => [
+            "token" => $fcmToken,
+            "notification" => [
+                "title" => "Jadwal Imunisasi Baru!",
+                "body" => "Jadwal imunisasi untuk {$namaAnak} ({$jadwal->jenis_imunisasi}) telah ditetapkan pada {$jadwal->tanggal_imunisasi}. Harap datang tepat waktu!"
+            ],
+            "data" => [
+                "nama_anak" => (string)$namaAnak,
+                "jenis_imunisasi" => (string)$jadwal->jenis_imunisasi,
+                "tanggal" => (string)$jadwal->tanggal_imunisasi,
+            ],
+            "android" => [
+                "priority" => "high",
+                "notification" => [
+                    "click_action" => "FLUTTER_NOTIFICATION_CLICK"
+                ]
+            ],
+            "apns" => [
+                "headers" => [
+                    "apns-priority" => "10"
+                ]
+            ],
+        ]
+    ];
+
+    $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $accessToken,
+        'Content-Type' => 'application/json',
+    ])->post($fcmUrl, $postData);
+
+    if ($response->failed()) {
+        Log::error('FCM Notification failed: ' . $response->body());
+    } else {
+        Log::info('FCM Notification sent successfully.');
+    }
+}
+
 
     // Menampilkan form edit
     public function edit($id)

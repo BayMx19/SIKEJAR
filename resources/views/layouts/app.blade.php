@@ -58,17 +58,11 @@
             @yield('content')
         </div>
     </div>
+    <!-- Load Firebase compat 9.6.10 -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
+
     <script>
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-            .register("/firebase-messaging-sw.js")
-            .then((registration) => {
-                console.log("Service Worker registered with scope:", registration.scope);
-            })
-            .catch((err) => {
-                console.log("Service Worker registration failed:", err);
-            });
-    }
     document.addEventListener("DOMContentLoaded", async () => {
         if (!firebase.apps.length) {
             firebase.initializeApp({
@@ -84,41 +78,63 @@
 
         const messaging = firebase.messaging();
 
-        try {
+        console.log("Firebase version:", firebase.SDK_VERSION);
+        console.log("Messaging object:", messaging);
+        console.log("Tipe useServiceWorker:", typeof messaging.useServiceWorker);
+
+        if ("serviceWorker" in navigator) {
+            const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+            console.log("Service Worker registered:", registration.scope);
+
             const permission = await Notification.requestPermission();
             if (permission === "granted") {
-                console.log("Izin diberikan");
-
                 const token = await messaging.getToken({
-                    vapidKey: "BCtiO2styu7pAFkLAis1O5mnCYT3Q41hQN1R4c-Qtj5CyauoSw3ua8fh5v4L3878A-IxwUCf-B322A5cJq-G1Cw"
+                    vapidKey: "BCtiO2styu7pAFkLAis1O5mnCYT3Q41hQN1R4c-Qtj5CyauoSw3ua8fh5v4L3878A-IxwUCf-B322A5cJq-G1Cw",
+                    serviceWorkerRegistration: registration
                 });
-                // console.log("FCM Token:", token);
 
-                // Kirim token ke backend untuk disimpan
+                console.log("FCM Token:", token);
+
                 fetch("/save-token", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content"),
                         },
                         body: JSON.stringify({
-                            token: token
+                            token
                         }),
                     })
-                    .then(response => response.json())
-                    .then(data => console.log("Token saved:", data))
-                    .catch(error => console.error("Error saving token:", error));
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log("Token saved response:", data);
+                    })
+                    .catch((err) => console.error("Failed to save token:", err));
             } else {
-                console.log("Izin ditolak oleh user.");
+                console.warn("User menolak notifikasi.");
             }
-        } catch (err) {
-            console.error("Gagal mendapatkan izin notifikasi", err);
+
+            messaging.onMessage((payload) => {
+                console.log("[firebase-messaging] Message received in foreground:", payload);
+
+                const {
+                    title,
+                    body
+                } = payload.notification || {};
+
+                if (title && body) {
+                    new Notification(title, {
+                        body: body,
+                        icon: "/assets/images/LogoPosyandu.png",
+                    });
+                }
+            });
         }
     });
     </script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>

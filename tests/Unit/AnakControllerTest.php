@@ -14,9 +14,9 @@ class AnakControllerTest extends TestCase
 public function it_displays_anak_index_page()
 {
     $user = UsersModel::factory()->create();
-    $this->actingAs($user); // Login as a user
+    $this->actingAs($user);
 
-    AnakModel::factory()->create(); // Create a dummy AnakModel
+    AnakModel::factory()->create();
 
     $response = $this->get('/master-anak');
 
@@ -29,7 +29,7 @@ public function it_displays_anak_index_page()
 public function it_displays_anak_detail_page()
 {
     $user = UsersModel::factory()->create();
-    $this->actingAs($user); // Login as a user
+    $this->actingAs($user);
 
     $anak = AnakModel::factory()->create();
 
@@ -45,7 +45,7 @@ public function it_displays_anak_detail_page()
 public function it_displays_create_anak_page()
 {
     $user = UsersModel::factory()->create();
-    $this->actingAs($user); // Login as a user
+    $this->actingAs($user);
 
     $response = $this->get('/master-anak/create');
 
@@ -58,7 +58,7 @@ public function it_displays_create_anak_page()
 public function it_stores_anak_data()
 {
     $user = UsersModel::factory()->create();
-    $this->actingAs($user); // Login as a user
+    $this->actingAs($user);
 
     $data = [
         'users_id' => $user->id,
@@ -81,7 +81,7 @@ public function it_stores_anak_data()
 public function it_updates_anak_data()
 {
     $user = UsersModel::factory()->create();
-    $this->actingAs($user); // Login as a user
+    $this->actingAs($user);
 
     $anak = AnakModel::factory()->create();
 
@@ -106,7 +106,7 @@ public function it_updates_anak_data()
 public function it_deletes_anak_data()
 {
     $user = UsersModel::factory()->create();
-    $this->actingAs($user); // Login as a user
+    $this->actingAs($user);
 
     $anak = AnakModel::factory()->create();
 

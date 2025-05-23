@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Log;
 class UsersController extends Controller
 {
     public function index()
@@ -99,10 +99,12 @@ class UsersController extends Controller
 
         $user = Auth::user();
         if ($user) {
+            Log::info("Saving FCM Token for user ID {$user->id}: {$request->token}");
             $user->update(['fcm_token' => $request->token]);
+             Log::info("Token saved to DB successfully.");
             return response()->json(['success' => true]);
         }
-
+            Log::warning("Token save failed: user not authenticated.");
         return response()->json(['error' => 'User not authenticated'], 401);
     }
 }
