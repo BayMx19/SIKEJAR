@@ -93,10 +93,12 @@
                                                 <select class="form-select" name="status">
                                                     <option value="">Pilih Status</option>
 
-                                                    <option value="Hidup">
-                                                        Hidup</option>
-                                                    <option value="Meninggal">
-                                                        Meninggal</option>
+                                                    <option value="Sehat">
+                                                        Sehat</option>
+                                                    <option value="Sakit">
+                                                        Sakit</option>
+                                                    <option value="Wafat">
+                                                        Wafat</option>
                                                 </select>
                                             </div>
                                         </div>

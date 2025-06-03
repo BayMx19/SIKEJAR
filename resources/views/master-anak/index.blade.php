@@ -27,11 +27,19 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                         @if(Auth::user()->role == 'Kader')
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{{ route('master-anak.create') }}" class="btn btn-primary">
+                                <i class="mdi mdi-plus"></i> Tambah Data Anak
+                            </a>
+                        </div>
+                        @endif
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama Anak</th>
+                                    <th>NIK Orang Tua</th>
                                     <th>Nama Orang Tua</th>
                                     <th>Tanggal Lahir</th>
                                     <th>Jenis Kelamin</th>
@@ -44,6 +52,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $anak->nama_anak}}</td>
+                                    <td>{{$anak->users->NIK}}</td>
                                     <td>{{ $anak->users->nama }}</td>
                                     <td>{{ date('d-m-Y', strtotime($anak->tanggal_lahir_anak)) }}</td>
                                     <td>{{ $anak->jenis_kelamin }}</td>
@@ -55,13 +64,13 @@
                                         <a href="{{ route('master-anak.edit', $anak->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
-                                        <form action="{{ route('master-anak.destroy', $anak->id) }}" method="POST"
+                                        <!-- <form action="{{ route('master-anak.destroy', $anak->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
-                                        </form>
+                                        </form> -->
                                         @endif
                                     </td>
                                 </tr>
@@ -72,12 +81,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->user()->role === 'Kader')
-        <!-- Floating Button -->
-        <a href="{{ route('master-anak.create') }}" class="btn btn-primary floating-btn">
-            <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
-        </a>
-        @endif
+
     </div>
 </div>
 

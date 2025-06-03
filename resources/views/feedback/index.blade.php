@@ -27,12 +27,20 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        @if(Auth::user()->role == 'SuperAdmin')
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{{ route('feedback.create') }}" class="btn btn-primary">
+                                <i class="mdi mdi-plus"></i> Tambah Feedback
+                            </a>
+                        </div>
+                        @endif
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>No.</th>
                                     <th>Tanggal</th>
-                                    <th>Nama</th>
+                                    <th>NIK Orang Tua</th>
+                                    <th>Nama Orang Tua</th>
                                     <th>Komentar</th>
 
                                 </tr>
@@ -42,6 +50,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{\Carbon\Carbon::parse($feedback->created_at)->format('d-m-Y') }}</td>
+                                    <td>{{ $feedback->users->NIK }}</td>
                                     <td>{{ $feedback->users->nama }}</td>
                                     <td>{{$feedback->komentar}}</td>
                                     <td>
@@ -69,13 +78,7 @@
                 </div>
             </div>
         </div>
-        @if(Auth::user()->role == 'SuperAdmin' )
 
-        <!-- Floating Button -->
-        <a href="{{ route('feedback.create') }}" class="btn btn-primary floating-btn">
-            <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
-        </a>
-        @endif
     </div>
 </div>
 

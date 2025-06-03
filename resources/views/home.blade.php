@@ -42,6 +42,33 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <hr>
+<h5 class="mt-4">Riwayat Feedback Imunisasi</h5>
+                        <table class="table table-bordered mt-2">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal Imunisasi</th>
+                                    <th>Jenis Imunisasi</th>
+                                    <th>Komentar</th>
+                                    <th>Waktu Isi Feedback</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($riwayat as $item)
+                                    <tr>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_imunisasi)->format('d-m-Y') }}</td>
+                                        <td>{{ $item->jenis_imunisasi }}</td>
+
+                                        <td>{{ $item->komentar }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i') }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">Belum ada riwayat feedback</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                         @else
                         <br>
                         <p>Selamat bertugas!</p>
@@ -123,8 +150,10 @@ function loadImunisasi(anakId) {
                                 </span>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-success" onclick="showFeedbackForm(${imunisasi.id})">
-                                    Isi Feedback
+                                <button type="button" class="btn btn-sm btn-success"
+                                    ${imunisasi.status === 'Belum' || imunisasi.status === 'Tertinggal' || imunisasi.sudah_feedback ? 'disabled' : ''}
+                                    onclick="showFeedbackForm(${imunisasi.id})">
+                                     ${imunisasi.sudah_feedback ? 'Sudah Isi Feedback' : 'Isi Feedback'}
                                 </button>
                                 <a href="/status-imunisasi/${imunisasi.id}/detail" class="btn btn-sm btn-info">
                                     Detail

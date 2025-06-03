@@ -27,11 +27,21 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        @if(Auth::user()->role == 'Kader')
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{{ route('jadwal-imunisasi.create') }}" class="btn btn-primary">
+                                <i class="mdi mdi-plus"></i> Tambah Jadwal Imunisasi
+                            </a>
+                        </div>
+                        @endif
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama Anak</th>
+                                    <th>Tanggal Lahir</th>
+                                    <th>NIK Orang Tua</th>
+                                    <th>Nama Orang Tua</th>
                                     <th>Tanggal Imunisasi</th>
                                     <th>Jenis Imunisasi</th>
                                     <th>Status</th>
@@ -43,6 +53,9 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $jadwal->anak->nama_anak }}</td>
+                                    <td>{{ $jadwal->anak->tanggal_lahir_anak }}</td>
+                                    <td>{{  $jadwal->anak->users->NIK}}</td>
+                                    <td>{{ $jadwal->anak->users->nama }}</td>
                                     <td>{{ date('d-m-Y', strtotime($jadwal->tanggal_imunisasi)) }}</td>
                                     <td>{{ $jadwal->jenis_imunisasi }}</td>
                                     <td>{{ $jadwal->status }}</td>
@@ -70,12 +83,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->user()->role === 'Kader')
-        <!-- Floating Button -->
-        <a href="{{ route('jadwal-imunisasi.create') }}" class="btn btn-primary floating-btn">
-            <i class="mdi mdi-plus"></i> <!-- Ikon tambah -->
-        </a>
-        @endif
+
     </div>
 </div>
 

@@ -7,6 +7,7 @@ use App\Models\ImunisasiModel;
 use App\Models\UsersModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -36,23 +37,37 @@ class HomeController extends Controller
                                  $query->latest()->limit(3); // Ambil data imunisasi terbaru
                              }])
                              ->get();
-        } else {
-            $anak = collect(); // Ubah ke koleksi kosong agar tetap bisa diproses di view
-        }
 
-        return view('home', compact('anak'));
+            $riwayat = DB::table('feedback')
+             ->join('imunisasi', 'feedback.imunisasi_id', '=', 'imunisasi.id')
+            ->where('feedback.users_id', $user->id)
+            ->get();
+
+            // dd($riwayat);
+        } else {
+            $anak = collect();}
+
+        return view('home', compact('anak', 'riwayat'));
     }
 
-    public function getImunisasi($anakId)
-{
-    $imunisasi = ImunisasiModel::where('anak_id', $anakId)
-        ->orderBy('tanggal_imunisasi', 'desc') // Urutkan dari yang terbaru
-        ->take(3) // Ambil hanya 3 data terbaru
-        ->get();
+        public function getImunisasi($anakId)
+    {
+        $userId = Auth::id();
+        $imunisasi = ImunisasiModel::where('anak_id', $anakId)
+            ->orderBy('tanggal_imunisasi', 'desc') // Urutkan dari yang terbaru
+            ->take(3) // Ambil hanya 3 data terbaru
+            ->get()
+            ->map(function ($item) use ($userId) {
+            $item->sudah_feedback = DB::table('feedback')
+                ->where('imunisasi_id', $item->id)
+                ->where('users_id', $userId)
+                ->exists();
+            return $item;
+        });
 
-    return response()->json($imunisasi);
-}
-public function detail($id)
+        return response()->json($imunisasi);
+    }
+    public function detail($id)
     {
         $anak = AnakModel::findOrFail($id);
         $users = UsersModel::where('role', 'User')->get();

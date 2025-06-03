@@ -101,11 +101,13 @@
                                             <div class="col-sm-9">
                                                 <select class="form-select" name="status">
                                                     <option value="">Pilih Status</option>
-                                                    <option value="Hidup"
-                                                        {{ $anak->status == 'Hidup' ? 'selected' : '' }}>Hidup</option>
-                                                    <option value="Meninggal"
-                                                        {{ $anak->status == 'Meninggal' ? 'selected' : '' }}>Meninggal
-                                                    </option>
+
+                                                    <option value="Sehat" {{ $anak->status == 'Sehat' ? 'selected' : '' }}>
+                                                        Sehat</option>
+                                                    <option value="Sakit" {{ $anak->status == 'Sakit' ? 'selected' : '' }}>
+                                                        Sakit</option>
+                                                    <option value="Wafat" {{ $anak->status == 'Wafat' ? 'selected' : '' }}>
+                                                        Wafat</option>
                                                 </select>
 
                                             </div>

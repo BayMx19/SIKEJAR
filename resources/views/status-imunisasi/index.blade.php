@@ -40,8 +40,8 @@
                                     <th>No.</th>
                                     <th>Nama Anak</th>
                                     <th>Tanggal Lahir</th>
+                                    <th>NIK Orang Tua</th>
                                     <th>Nama Orang Tua</th>
-                                    <th>Alamat</th>
                                     <th>Tanggal Imunisasi</th>
                                     <th>Jenis Imunisasi</th>
                                     <th>Status</th>
@@ -54,8 +54,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $status->anak->nama_anak }}</td>
                                     <td>{{ $status->anak->tanggal_lahir_anak }}</td>
+                                    <td>{{$status->anak->users->NIK}}</td>
                                     <td>{{ $status->anak->users->nama }}</td>
-                                    <td>{{ $status->anak->users->alamat }}</td>
                                     <td>{{ date('d-m-Y', strtotime($status->tanggal_imunisasi)) }}</td>
                                     <td>{{ $status->jenis_imunisasi }}</td>
                                     <td>
