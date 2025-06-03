@@ -141,13 +141,14 @@
                                                 <select class="form-select" name="role" required>
                                                     <option value="">Pilih Role</option>
 
-                                                    <option value="User">
-
-                                                        User</option>
-                                                    <option value="Kader">
-                                                        Kader</option>
                                                     <option value="SuperAdmin">
                                                         SuperAdmin</option>
+                                                    <option value="Dokter">
+                                                        Dokter</option>
+                                                    <option value="Kader">
+                                                        Kader</option>
+                                                    <option value="User">
+                                                        User</option>
                                                 </select>
                                             </div>
                                         </div>

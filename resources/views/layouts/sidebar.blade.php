@@ -16,6 +16,15 @@
             </a>
         </li>
         @endif
+        @if(auth()->check() && auth()->user()->role === 'SuperAdmin')
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{'/master-dokter'}}">
+                <span class="menu-title">Master Dokter</span>
+                <i class="mdi mdi-account menu-icon"></i>
+            </a>
+        </li>
+        @endif
         @if(auth()->check() && (auth()->user()->role === 'SuperAdmin' || auth()->user()->role === 'Kader'))
 
         <li class="nav-item">

@@ -48,5 +48,9 @@ class UsersModel extends Authenticatable
     {
         return $this->role === $role;
     }
+    public function dokter()
+    {
+        return $this->hasOne(DokterModel::class, 'users_id');
+    }
 
 }

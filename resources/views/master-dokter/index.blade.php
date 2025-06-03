@@ -19,7 +19,7 @@
         </div>
         @endif
         <div class="page-header">
-            <h3 class="page-title"> Master Users </h3>
+            <h3 class="page-title"> Master Dokter </h3>
             <nav aria-label="breadcrumb">
             </nav>
         </div>
@@ -29,8 +29,8 @@
                     <div class="card-body">
                         @if(Auth::user()->role == 'SuperAdmin')
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="{{ route('master-users.create') }}" class="btn btn-primary">
-                                <i class="mdi mdi-plus"></i> Tambah Users
+                            <a href="{{ route('master-dokter.create') }}" class="btn btn-primary">
+                                <i class="mdi mdi-plus"></i> Tambah Dokter
                             </a>
                         </div>
                         @endif
@@ -38,36 +38,34 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Username</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Nama Dokter</th>
+                                    <th>No. STR</th>
+                                    <th>Spesialis</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $user)
+                                @foreach($dokter as $dokter)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $user->username }}</td>
-                                    <td>{{ $user->nama }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->role }}</td>
-                                    <td>{{ $user->status }}</td>
+                                    <td>{{ $dokter->users->nama }}</td>
+                                    <td>{{ $dokter->no_str}}</td>
+                                    <td>{{ $dokter->spesialis}}</td>
+                                    <td>{{ $dokter->users->status }}</td>
                                     <td>
-                                        <a href="{{ route('master-users.detail', $user->id) }}"
+                                        <a href="{{ route('master-dokter.detail', $dokter->id) }}"
                                             class="btn btn-primary btn-sm me-2">Detail</a>
-                                        <a href="{{ route('master-users.edit', $user->id) }}"
+                                        <a href="{{ route('master-dokter.edit', $dokter->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
-                                        <!-- <form action="{{ route('master-users.destroy', $user->id) }}" method="POST"
+                                        <form action="{{ route('master-dokter.destroy', $dokter->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
-                                        </form> -->
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

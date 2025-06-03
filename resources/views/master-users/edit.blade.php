@@ -119,15 +119,18 @@
                                             <label class="col-sm-3 col-form-label">Role</label>
                                             <div class="col-sm-9">
                                                 <select class="form-select" name="role" required>
-                                                    <option value="User"
-                                                        {{ (old('role', $user->role ?? '') == 'User') ? 'selected' : '' }}>
-                                                        User</option>
+                                                    <option value="SuperAdmin"
+                                                    {{ (old('role', $user->role ?? '') == 'SuperAdmin') ? 'selected' : '' }}>
+                                                    SuperAdmin</option>
                                                     <option value="Kader"
                                                         {{ (old('role', $user->role ?? '') == 'Kader') ? 'selected' : '' }}>
                                                         Kader</option>
-                                                    <option value="SuperAdmin"
-                                                        {{ (old('role', $user->role ?? '') == 'SuperAdmin') ? 'selected' : '' }}>
-                                                        SuperAdmin</option>
+                                                    <option value="Dokter"
+                                                        {{ (old('role', $user->role ?? '') == 'Dokter') ? 'selected' : '' }}>
+                                                        Dokter</option>
+                                                    <option value="User"
+                                                        {{ (old('role', $user->role ?? '') == 'User') ? 'selected' : '' }}>
+                                                        User</option>
                                                 </select>
                                             </div>
                                         </div>

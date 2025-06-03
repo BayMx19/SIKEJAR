@@ -2,6 +2,7 @@
 
 use App\Helpers\FirebaseHelper;
 use App\Http\Controllers\AnakController;
+use App\Http\Controllers\DokterController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalImunisasiController;
@@ -42,6 +43,14 @@ Route::get('/master-users/{id}/edit', [UsersController::class, 'edit'])->name('m
 Route::get('/master-users/{id}/detail', [UsersController::class, 'detail'])->name('master-users.detail');
 Route::put('/master-users/{id}', [UsersController::class, 'update'])->name('master-users.update');
 Route::delete('/master-users/{id}', [UsersController::class, 'destroy'])->name('master-users.destroy');
+
+Route::get('/master-dokter', [DokterController::class, 'index'])->name('master-dokter');
+Route::get('/master-dokter/create', [DokterController::class, 'create'])->name('master-dokter.create');
+Route::post('/master-dokter/store', [DokterController::class, 'store'])->name('master-dokter.store');
+Route::get('/master-dokter/{id}/edit', [DokterController::class, 'edit'])->name('master-dokter.edit');
+Route::get('/master-dokter/{id}/detail', [DokterController::class, 'detail'])->name('master-dokter.detail');
+Route::put('/master-dokter/{id}', [DokterController::class, 'update'])->name('master-dokter.update');
+Route::delete('/master-dokter/{id}', [DokterController::class, 'destroy'])->name('master-dokter.destroy');
 
 
 Route::get('/master-anak', [AnakController::class, 'index'])->name('master-anak');
