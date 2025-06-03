@@ -28,62 +28,73 @@ use Illuminate\Support\Facades\Log;
 Route::get('/', function () {
     return view('auth.login');
 });
-
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/get-imunisasi/{anakId}', [HomeController::class, 'getImunisasi']);
-Route::post('/feedback/storedashboard', [FeedbackController::class, 'storeDashboard'])->name('feedback.storedashboard');
-Route::get('/master-anak/{id}/detail', [HomeController::class, 'detail'])->name('master-anak.detail');
-Route::get('/grafik-bb-tb', [HomeController::class, 'grafikBBTB'])->name('grafik.bb.tb');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/home', 'index')->name('home');
+    Route::get('/get-imunisasi/{anakId}', 'getImunisasi');
+    Route::get('/grafik-bb-tb', 'grafikBBTB')->name('grafik.bb.tb');
+    Route::get('/master-anak/{id}/detail', 'detail')->name('master-anak.detail');
+});
 
-Route::get('/master-users', [UsersController::class, 'index'])->name('master-users');
-Route::get('/master-users/create', [UsersController::class, 'create'])->name('master-users.create');
-Route::post('/master-users/store', [UsersController::class, 'store'])->name('master-users.store');
-Route::get('/master-users/{id}/edit', [UsersController::class, 'edit'])->name('master-users.edit');
-Route::get('/master-users/{id}/detail', [UsersController::class, 'detail'])->name('master-users.detail');
-Route::put('/master-users/{id}', [UsersController::class, 'update'])->name('master-users.update');
-Route::delete('/master-users/{id}', [UsersController::class, 'destroy'])->name('master-users.destroy');
+Route::controller(UsersController::class)->group(function () {
+    Route::get('/master-users', 'index')->name('master-users');
+    Route::get('/master-users/create', 'create')->name('master-users.create');
+    Route::post('/master-users/store', 'store')->name('master-users.store');
+    Route::get('/master-users/{id}/edit', 'edit')->name('master-users.edit');
+    Route::get('/master-users/{id}/detail', 'detail')->name('master-users.detail');
+    Route::put('/master-users/{id}', 'update')->name('master-users.update');
+    Route::delete('/master-users/{id}', 'destroy')->name('master-users.destroy');
+});
 
-Route::get('/master-dokter', [DokterController::class, 'index'])->name('master-dokter');
-Route::get('/master-dokter/create', [DokterController::class, 'create'])->name('master-dokter.create');
-Route::post('/master-dokter/store', [DokterController::class, 'store'])->name('master-dokter.store');
-Route::get('/master-dokter/{id}/edit', [DokterController::class, 'edit'])->name('master-dokter.edit');
-Route::get('/master-dokter/{id}/detail', [DokterController::class, 'detail'])->name('master-dokter.detail');
-Route::put('/master-dokter/{id}', [DokterController::class, 'update'])->name('master-dokter.update');
-Route::delete('/master-dokter/{id}', [DokterController::class, 'destroy'])->name('master-dokter.destroy');
-
-
-Route::get('/master-anak', [AnakController::class, 'index'])->name('master-anak');
-Route::get('/master-anak/create', [AnakController::class, 'create'])->name('master-anak.create');
-Route::post('/master-anak/store', [AnakController::class, 'store'])->name('master-anak.store');
-Route::get('/master-anak/{id}/edit', [AnakController::class, 'edit'])->name('master-anak.edit');
-Route::get('/master-anak/{id}/detail', [AnakController::class, 'detail'])->name('master-anak.detail');
-Route::put('/master-anak/{id}', [AnakController::class, 'update'])->name('master-anak.update');
-Route::delete('/master-anak/{id}', [AnakController::class, 'destroy'])->name('master-anak.destroy');
-
-Route::get('/jadwal-imunisasi', [JadwalImunisasiController::class, 'index'])->name('jadwal-imunisasi');
-Route::get('/jadwal-imunisasi/create', [JadwalImunisasiController::class, 'create'])->name('jadwal-imunisasi.create');
-Route::post('/jadwal-imunisasi/store', [JadwalImunisasiController::class, 'store'])->name('jadwal-imunisasi.store');
-Route::get('/jadwal-imunisasi/{id}/edit', [JadwalImunisasiController::class, 'edit'])->name('jadwal-imunisasi.edit');
-Route::get('/jadwal-imunisasi/{id}/detail', [JadwalImunisasiController::class, 'detail'])->name('jadwal-imunisasi.detail');
-Route::put('/jadwal-imunisasi/{id}', [JadwalImunisasiController::class, 'update'])->name('jadwal-imunisasi.update');
-Route::delete('/jadwal-imunisasi/{id}', [JadwalImunisasiController::class, 'destroy'])->name('jadwal-imunisasi.destroy');
-
-Route::get('/status-imunisasi', [StatusImunisasiController::class, 'index'])->name('status-imunisasi');
-Route::get('/status-imunisasi/{id}/detail', [StatusImunisasiController::class, 'detail'])->name('status-imunisasi.detail');
-Route::put('/status-imunisasi/{id}', [StatusImunisasiController::class, 'update'])->name('status-imunisasi.update');
-Route::delete('/status-imunisasi/{id}', [StatusImunisasiController::class, 'destroy'])->name('status-imunisasi.destroy');
-
-Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
-Route::get('/feedback/create', [FeedbackController::class, 'create'])->name('feedback.create');
-Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
-
-Route::get('/feedback/{id}/edit', [FeedbackController::class, 'edit'])->name('feedback.edit');
-Route::get('/feedback/{id}/detail', [FeedbackController::class, 'detail'])->name('feedback.detail');
-Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
-Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
+Route::controller(DokterController::class)->group(function () {
+    Route::get('/master-dokter', 'index')->name('master-dokter');
+    Route::get('/master-dokter/create', 'create')->name('master-dokter.create');
+    Route::post('/master-dokter/store', 'store')->name('master-dokter.store');
+    Route::get('/master-dokter/{id}/edit', 'edit')->name('master-dokter.edit');
+    Route::get('/master-dokter/{id}/detail', 'detail')->name('master-dokter.detail');
+    Route::put('/master-dokter/{id}', 'update')->name('master-dokter.update');
+    Route::delete('/master-dokter/{id}', 'destroy')->name('master-dokter.destroy');
+});
 
 
+Route::controller(AnakController::class)->group(function () {
+    Route::get('/master-anak', 'index')->name('master-anak');
+    Route::get('/master-anak/create', 'create')->name('master-anak.create');
+    Route::post('/master-anak/store', 'store')->name('master-anak.store');
+    Route::get('/master-anak/{id}/edit', 'edit')->name('master-anak.edit');
+    Route::get('/master-anak/{id}/detail', 'detail')->name('master-anak.detail');
+    Route::put('/master-anak/{id}', 'update')->name('master-anak.update');
+    Route::delete('/master-anak/{id}', 'destroy')->name('master-anak.destroy');
+});
+
+Route::controller(JadwalImunisasiController::class)->group(function () {
+    Route::get('/jadwal-imunisasi', 'index')->name('jadwal-imunisasi');
+    Route::get('/jadwal-imunisasi/create', 'create')->name('jadwal-imunisasi.create');
+    Route::post('/jadwal-imunisasi/store', 'store')->name('jadwal-imunisasi.store');
+    Route::get('/jadwal-imunisasi/{id}/edit', 'edit')->name('jadwal-imunisasi.edit');
+    Route::get('/jadwal-imunisasi/{id}/detail', 'detail')->name('jadwal-imunisasi.detail');
+    Route::put('/jadwal-imunisasi/{id}', 'update')->name('jadwal-imunisasi.update');
+    Route::delete('/jadwal-imunisasi/{id}', 'destroy')->name('jadwal-imunisasi.destroy');
+});
+
+
+Route::controller(StatusImunisasiController::class)->group(function () {
+    Route::get('/status-imunisasi', 'index')->name('status-imunisasi');
+    Route::get('/status-imunisasi/{id}/detail', 'detail')->name('status-imunisasi.detail');
+    Route::put('/status-imunisasi/{id}', 'update')->name('status-imunisasi.update');
+    Route::delete('/status-imunisasi/{id}', 'destroy')->name('status-imunisasi.destroy');
+});
+
+Route::controller(FeedbackController::class)->group(function () {
+    Route::get('/feedback', 'index')->name('feedback');
+    Route::get('/feedback/create', 'create')->name('feedback.create');
+    Route::post('/feedback/store', 'store')->name('feedback.store');
+    Route::post('/feedback/storedashboard', 'storeDashboard')->name('feedback.storedashboard');
+    Route::get('/feedback/{id}/edit', 'edit')->name('feedback.edit');
+    Route::get('/feedback/{id}/detail', 'detail')->name('feedback.detail');
+    Route::put('/feedback/{id}', 'update')->name('feedback.update');
+    Route::delete('/feedback/{id}', 'destroy')->name('feedback.destroy');
+});
 
 Route::post('/save-token', [UsersController::class, 'saveToken'])->middleware('auth');
