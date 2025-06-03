@@ -39,16 +39,23 @@ class JadwalImunisasiController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-
+        $request->validate([
+            'anak_id' => 'required|array',
+            'anak_id.*' => 'exists:master_anak,id',
+            'tanggal_imunisasi' => 'required|date',
+            'jenis_imunisasi' => 'required|string',
+            'keterangan' => 'nullable|string',
+        ]);
         try{
+            foreach ($request->anak_id as $anakId) {
             $jadwal = JadwalImunisasiModel::create([
-                'anak_id' => $request->anak_id,
+                'anak_id' => $anakId,
                 'tanggal_imunisasi' => $request->tanggal_imunisasi,
                 'jenis_imunisasi' => $request->jenis_imunisasi,
                 'keterangan' => $request->keterangan,
                 'status' => "Belum",
             ]);
-            $anak = AnakModel::find($request->anak_id);
+            $anak = AnakModel::find($anakId);
 
             if ($anak && $anak->users_id) {
                 $user = UsersModel::find($anak->users_id);
@@ -58,6 +65,7 @@ class JadwalImunisasiController extends Controller
                 }
             }
             event(new JadwalImunisasiEvent($jadwal));
+        }
             // Redirect kembali dengan pesan sukses
             return redirect('/jadwal-imunisasi')->with('success', 'Jadwal Imunisasi Anak berhasil ditambahkan.');
         } catch (QueryException $e) {

@@ -22,12 +22,13 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Nama Anak</label>
                                             <div class="col-sm-9">
-                                                <select class="form-select" name="anak_id">
-                                                    <option value="">Pilih Anak</option>
-                                                    @foreach($anak as $item)
+                                                <select class="form-select select2" name="anak_id[]" multiple required>
+                                                <option disabled>Pilih Anak</option>
+                                                @foreach($anak as $item)
                                                     <option value="{{ $item->id }}">{{ $item->nama_anak }}</option>
-                                                    @endforeach
-                                                </select>
+                                                @endforeach
+                                            </select>
+                                            <small class="form-text text-muted">Pilih lebih dari satu anak</small>
                                             </div>
                                         </div>
                                     </div>
@@ -110,6 +111,15 @@ $(document).ready(function() {
     $('.select2').select2({
         placeholder: "Pilih Orang Tua",
         allowClear: true
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('.select2').select2({
+        placeholder: "Pilih Anak",
+        allowClear: true,
+        width: '100%'
     });
 });
 </script>
