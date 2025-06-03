@@ -171,6 +171,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
+
                                     <!-- Status -->
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -191,6 +192,45 @@
                                                 @else
                                                 <input type="text" class="form-control" value="{{ $status->status }}"
                                                     readonly>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Berat Badan -->
+                                     <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Berat Badan (kg)</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" step="0.01" min="0" class="form-control" name="berat_badan" autocomplete="off" value="{{ old('berat_badan', $status->berat_badan) }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Tinggi Badan -->
+                                     <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Tinggi Badan (cm)</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" step="0.1" min="0" class="form-control" name="tinggi_badan" autocomplete="off" value="{{ old('tinggi_badan', $status->tinggi_badan) }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                   <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Dokter</label>
+                                            <div class="col-sm-9">
+                                                @if(Auth::user()->role == 'Kader')
+                                                <select class="form-select" name="dokter_id" required>
+                                                    <option value="">-- Pilih Dokter --</option>
+                                                    @foreach($dokters as $dokter)
+                                                        <option value="{{ $dokter->users->id }}"
+                                                            {{ $status->dokter_id == $dokter->users->id ? 'selected' : '' }}>
+                                                            {{ $dokter->users->nama }} ({{ $dokter->users->email }})
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @else
+                                                <input type="text" class="form-control"
+                                                    value="{{ $status->dokter ? $status->dokter->nama : '-' }}" readonly>
                                                 @endif
                                             </div>
                                         </div>

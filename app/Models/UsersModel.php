@@ -53,4 +53,9 @@ class UsersModel extends Authenticatable
         return $this->hasOne(DokterModel::class, 'users_id');
     }
 
+    public function imunisasi()
+    {
+        return $this->hasMany(ImunisasiModel::class, 'dokter_id');
+    }
+
 }

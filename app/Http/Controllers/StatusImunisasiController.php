@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnakModel;
+use App\Models\DokterModel;
 use App\Models\StatusImunisasiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,17 +30,22 @@ class StatusImunisasiController extends Controller
     {
         $status = StatusImunisasiModel::findOrFail($id);
         $listanak = AnakModel::all();
+        $dokters = DokterModel::with('users')->get();
 
-        return view('status-imunisasi.detail', compact('status', 'listanak'));
+        return view('status-imunisasi.detail', compact('status', 'listanak', 'dokters'));
     }
     // Mengupdate data
     public function update(Request $request, $id)
     {
+        // dd($request);
         $status = StatusImunisasiModel::find($id);
 
         DB::table('imunisasi')->where('id', $id)->update([
             'keterangan' => $request->keterangan,
             'status' => $request->status,
+            'berat_badan' => $request->berat_badan,
+            'tinggi_badan' => $request->tinggi_badan,
+            'dokter_id' => $request->dokter_id
         ]);
 
         return redirect('status-imunisasi')->with('success', 'Status Imunisasi Anak berhasil diperbarui!');

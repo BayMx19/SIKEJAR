@@ -17,6 +17,9 @@ class StatusImunisasiModel extends Model
         'jenis_imunisasi',
         'keterangan',
         'status',
+        'berat_badan',
+        'tinggi_badan',
+        'dokter_id'
     ];
 
     public function anak()
@@ -30,6 +33,10 @@ class StatusImunisasiModel extends Model
     public static function newFactory()
     {
         return ImunisasiModelFactory::new();
+    }
+    public function dokter()
+    {
+        return $this->belongsTo(UsersModel::class, 'dokter_id');
     }
 
 }
