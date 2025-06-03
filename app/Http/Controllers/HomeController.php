@@ -45,7 +45,9 @@ class HomeController extends Controller
 
             // dd($riwayat);
         } else {
-            $anak = collect();}
+            $anak = collect();
+            $riwayat = collect();
+        }
 
         return view('home', compact('anak', 'riwayat'));
     }
@@ -74,6 +76,43 @@ class HomeController extends Controller
 
         return view('master-anak.detail', compact('anak', 'users'));
     }
+
+    public function grafikBBTB()
+{
+    $userId = Auth::id();
+
+    $anakList = AnakModel::where('users_id', $userId)->get();
+
+    $dataBB = [];
+    $dataTB = [];
+
+    foreach ($anakList as $anak) {
+        $catatan = DB::table('imunisasi')
+            ->where('anak_id', $anak->id)
+            ->orderBy('tanggal_imunisasi')
+            ->get(['tanggal_imunisasi', 'berat_badan', 'tinggi_badan']);
+
+        $dataBB['anak_'.$anak->id] = $catatan->map(function ($item) {
+            return [
+                'tanggal_imunisasi' => \Carbon\Carbon::parse($item->tanggal_imunisasi)->toDateString(),
+                'berat_badan' => $item->berat_badan
+            ];
+        });
+
+        $dataTB['anak_'.$anak->id] = $catatan->map(function ($item) {
+            return [
+                'tanggal_imunisasi' => \Carbon\Carbon::parse($item->tanggal_imunisasi)->toDateString(),
+                'tinggi_badan' => $item->tinggi_badan
+            ];
+        });
+    }
+
+    return response()->json([
+        'berat_badan' => $dataBB,
+        'tinggi_badan' => $dataTB,
+        'anak' => $anakList->mapWithKeys(fn($a) => ['anak_'.$a->id => $a->nama_anak]),
+    ]);
+}
 
 
     }

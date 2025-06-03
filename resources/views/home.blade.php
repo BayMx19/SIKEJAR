@@ -43,7 +43,7 @@
                             </tbody>
                         </table>
                         <hr>
-<h5 class="mt-4">Riwayat Feedback Imunisasi</h5>
+                        <h5 class="mt-4">Riwayat Feedback Imunisasi</h5>
                         <table class="table table-bordered mt-2">
                             <thead>
                                 <tr>
@@ -69,6 +69,16 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <hr>
+                        <h5 class="mt-4">Grafik Berat Badan dan Tinggi Badan Anak</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <canvas id="chartBB" height="300"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <canvas id="chartTB" height="300"></canvas>
+                            </div>
+                        </div>
                         @else
                         <br>
                         <p>Selamat bertugas!</p>
@@ -123,6 +133,88 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+<script>
+function randomColor() {
+    return '#' + Math.floor(Math.random()*16777215).toString(16);
+}
+
+fetch("{{ route('grafik.bb.tb') }}")
+.then(res => res.json())
+.then(data => {
+    const datasetsBB = [];
+    for (const anakKey in data.berat_badan) {
+        datasetsBB.push({
+            label: data.anak[anakKey],
+            data: data.berat_badan[anakKey].map(d => ({ x: d.tanggal_imunisasi, y: d.berat_badan })),
+            borderColor: randomColor(),
+            fill: false,
+            tension: 0.2,
+            pointRadius: 3
+        });
+    }
+
+    const ctxBB = document.getElementById('chartBB').getContext('2d');
+    new Chart(ctxBB, {
+        type: 'line',
+        data: { datasets: datasetsBB },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' }},
+            scales: {
+                x: {
+                    type: 'time',
+                    time: { unit: 'day', tooltipFormat: 'DD-MM-YYYY' },
+                    title: { display: true, text: 'Tanggal' }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Berat Badan (kg)' }
+                }
+            }
+        }
+    });
+
+    // Grafik TB
+    const datasetsTB = [];
+    for (const anakKey in data.tinggi_badan) {
+        datasetsTB.push({
+            label: data.anak[anakKey],
+            data: data.tinggi_badan[anakKey].map(d => ({ x: d.tanggal_imunisasi, y: d.tinggi_badan })),
+            borderColor: randomColor(),
+            fill: false,
+            tension: 0.2,
+            pointRadius: 3
+        });
+    }
+
+    const ctxTB = document.getElementById('chartTB').getContext('2d');
+    new Chart(ctxTB, {
+        type: 'line',
+        data: { datasets: datasetsTB },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' }},
+            scales: {
+                x: {
+                    type: 'time',
+                    time: { unit: 'day', tooltipFormat: 'DD-MM-YYYY' },
+                    title: { display: true, text: 'Tanggal' }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Tinggi Badan (cm)' }
+                }
+            }
+        }
+    });
+});
+</script>
+
 <script>
 function showFeedbackForm(imunisasiId) {
     document.getElementById("feedbackImunisasiId").value = imunisasiId;

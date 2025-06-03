@@ -35,6 +35,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/get-imunisasi/{anakId}', [HomeController::class, 'getImunisasi']);
 Route::post('/feedback/storedashboard', [FeedbackController::class, 'storeDashboard'])->name('feedback.storedashboard');
 Route::get('/master-anak/{id}/detail', [HomeController::class, 'detail'])->name('master-anak.detail');
+Route::get('/grafik-bb-tb', [HomeController::class, 'grafikBBTB'])->name('grafik.bb.tb');
 
 Route::get('/master-users', [UsersController::class, 'index'])->name('master-users');
 Route::get('/master-users/create', [UsersController::class, 'create'])->name('master-users.create');
