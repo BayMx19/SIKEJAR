@@ -59,13 +59,13 @@
                                         <a href="{{ route('master-dokter.edit', $dokter->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
-                                        <form action="{{ route('master-dokter.destroy', $dokter->id) }}" method="POST"
+                                        <!-- <form action="{{ route('master-dokter.destroy', $dokter->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
-                                        </form>
+                                        </form> -->
                                     </td>
                                 </tr>
                                 @endforeach

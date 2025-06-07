@@ -71,13 +71,13 @@
                                             class="btn btn-warning btn-sm me-2">Lihat</a>
                                         @if(Auth::user()->role == 'Kader' )
 
-                                        <form action="{{ route('status-imunisasi.destroy', $status->id) }}"
+                                        <!-- <form action="{{ route('status-imunisasi.destroy', $status->id) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
-                                        </form>
+                                        </form> -->
                                         @endif
                                     </td>
                                 </tr>

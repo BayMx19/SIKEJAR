@@ -66,13 +66,13 @@
                                         <a href="{{ route('jadwal-imunisasi.edit', $jadwal->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
-                                        <form action="{{ route('jadwal-imunisasi.destroy', $jadwal->id) }}"
+                                        <!-- <form action="{{ route('jadwal-imunisasi.destroy', $jadwal->id) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
-                                        </form>
+                                        </form> -->
                                         @endif
                                     </td>
                                 </tr>
