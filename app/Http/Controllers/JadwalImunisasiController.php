@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Google\Client;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\JadwalImunisasiNotificationMail;
 
 
 class JadwalImunisasiController extends Controller
@@ -59,9 +61,14 @@ class JadwalImunisasiController extends Controller
 
             if ($anak && $anak->users_id) {
                 $user = UsersModel::find($anak->users_id);
+                $namaAnak = $anak->nama_anak;
 
                 if ($user && $user->fcm_token) {
                     $this->sendFCMNotification($user->fcm_token, $jadwal);
+                }
+
+                if ($user && $user->email) {
+                    Mail::to($user->email)->send(new JadwalImunisasiNotificationMail($jadwal, $namaAnak));
                 }
             }
             event(new JadwalImunisasiEvent($jadwal));

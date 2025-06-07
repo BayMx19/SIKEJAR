@@ -21,15 +21,25 @@
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Nama Anak</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-select select2" name="anak_id[]" multiple required>
-                                                <option disabled>Pilih Anak</option>
-                                                @foreach($anak as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->nama_anak }}</option>
-                                                @endforeach
-                                            </select>
-                                            <small class="form-text text-muted">Pilih lebih dari satu anak</small>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="selectAllAnak">
+                                                <label class="form-check-label" for="selectAllAnak">
+                                                    Pilih Semua
+                                                </label>
                                             </div>
+
+                                            <div id="anakCheckboxList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                                                @foreach($anak as $item)
+                                                <div class="form-check">
+                                                    <input class="form-check-input anak-checkbox" type="checkbox" name="anak_id[]" value="{{ $item->id }}" id="anak{{ $item->id }}">
+                                                    <label class="form-check-label" for="anak{{ $item->id }}">
+                                                        {{ $item->nama_anak }}
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+
+                                            <small class="form-text text-muted">Pilih lebih dari satu anak</small>
                                         </div>
                                     </div>
 
@@ -115,13 +125,10 @@ $(document).ready(function() {
 });
 </script>
 <script>
-$(document).ready(function() {
-    $('.select2').select2({
-        placeholder: "Pilih Anak",
-        allowClear: true,
-        width: '100%'
+ document.getElementById('selectAllAnak').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.anak-checkbox');
+        checkboxes.forEach(cb => cb.checked = this.checked);
     });
-});
 </script>
 
 @endsection

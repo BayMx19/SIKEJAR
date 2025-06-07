@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\UsersModel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,3 +99,14 @@ Route::controller(FeedbackController::class)->group(function () {
 });
 
 Route::post('/save-token', [UsersController::class, 'saveToken'])->middleware('auth');
+Route::get('/test-email', function () {
+    try {
+        Mail::raw('Ini email test', function ($message) {
+            $message->to('isaimanmuhammad1@gmail.com')
+                ->subject('Test Email');
+        });
+        return 'Email terkirim';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
