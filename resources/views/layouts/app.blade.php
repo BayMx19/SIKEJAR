@@ -143,9 +143,17 @@
     <script src="{{asset('assets/vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="{{asset('assets/vendors/chart.js/chart.umd.js')}}"></script>
     <script src="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
     <!-- End plugin js for this page -->
+     <!-- Load Moment.js terlebih dahulu -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+
+    <!-- Load Chart.js terlebih dahulu sebelum adapter -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Baru setelah Chart.js, load adapter moment -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+
     <!-- inject:js -->
     <script src="{{asset('assets/js/off-canvas.js')}}"></script>
     <script src="{{asset('assets/js/misc.js')}}"></script>

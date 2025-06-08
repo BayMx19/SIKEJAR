@@ -134,85 +134,90 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
 
 <script>
-function randomColor() {
-    return '#' + Math.floor(Math.random()*16777215).toString(16);
+window.onload = function () {
+    // Registrasi adapter
+    // Chart.register(window['chartjs-adapter-moment']);
+
+    function randomColor() {
+        return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    }
+
+    fetch("{{ route('grafik.bb.tb') }}")
+        .then(res => res.json())
+        .then(data => {
+            console.log("DATA FETCH:", data);
+
+            // === chart BB ===
+            const datasetsBB = [];
+            for (const anakKey in data.berat_badan) {
+                datasetsBB.push({
+                    label: data.anak[anakKey],
+                    data: data.berat_badan[anakKey].map(d => ({ x: moment(d.tanggal_imunisasi).format(), y: d.berat_badan })),
+                    borderColor: randomColor(),
+                    fill: false,
+                    tension: 0.2,
+                    pointRadius: 3
+                });
+            }
+
+            const ctxBB = document.getElementById('chartBB').getContext('2d');
+            new Chart(ctxBB, {
+                type: 'line',
+                data: { datasets: datasetsBB },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' }},
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: { unit: 'day', tooltipFormat: 'DD-MM-YYYY' },
+                            title: { display: true, text: 'Tanggal' }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Berat Badan (kg)' }
+                        }
+                    }
+                }
+            });
+
+            // === chart TB ===
+            const datasetsTB = [];
+            for (const anakKey in data.tinggi_badan) {
+                datasetsTB.push({
+                    label: data.anak[anakKey],
+                    data: data.tinggi_badan[anakKey].map(d => ({ x: moment(d.tanggal_imunisasi).format(), y: d.tinggi_badan })),
+                    borderColor: randomColor(),
+                    fill: false,
+                    tension: 0.2,
+                    pointRadius: 3
+                });
+            }
+
+            const ctxTB = document.getElementById('chartTB').getContext('2d');
+            new Chart(ctxTB, {
+                type: 'line',
+                data: { datasets: datasetsTB },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' }},
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: { unit: 'day', tooltipFormat: 'DD-MM-YYYY' },
+                            title: { display: true, text: 'Tanggal' }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Tinggi Badan (cm)' }
+                        }
+                    }
+                }
+            });
+        });
 }
-
-fetch("{{ route('grafik.bb.tb') }}")
-.then(res => res.json())
-.then(data => {
-    const datasetsBB = [];
-    for (const anakKey in data.berat_badan) {
-        datasetsBB.push({
-            label: data.anak[anakKey],
-            data: data.berat_badan[anakKey].map(d => ({ x: d.tanggal_imunisasi, y: d.berat_badan })),
-            borderColor: randomColor(),
-            fill: false,
-            tension: 0.2,
-            pointRadius: 3
-        });
-    }
-
-    const ctxBB = document.getElementById('chartBB').getContext('2d');
-    new Chart(ctxBB, {
-        type: 'line',
-        data: { datasets: datasetsBB },
-        options: {
-            responsive: true,
-            plugins: { legend: { position: 'top' }},
-            scales: {
-                x: {
-                    type: 'time',
-                    time: { unit: 'day', tooltipFormat: 'DD-MM-YYYY' },
-                    title: { display: true, text: 'Tanggal' }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Berat Badan (kg)' }
-                }
-            }
-        }
-    });
-
-    // Grafik TB
-    const datasetsTB = [];
-    for (const anakKey in data.tinggi_badan) {
-        datasetsTB.push({
-            label: data.anak[anakKey],
-            data: data.tinggi_badan[anakKey].map(d => ({ x: d.tanggal_imunisasi, y: d.tinggi_badan })),
-            borderColor: randomColor(),
-            fill: false,
-            tension: 0.2,
-            pointRadius: 3
-        });
-    }
-
-    const ctxTB = document.getElementById('chartTB').getContext('2d');
-    new Chart(ctxTB, {
-        type: 'line',
-        data: { datasets: datasetsTB },
-        options: {
-            responsive: true,
-            plugins: { legend: { position: 'top' }},
-            scales: {
-                x: {
-                    type: 'time',
-                    time: { unit: 'day', tooltipFormat: 'DD-MM-YYYY' },
-                    title: { display: true, text: 'Tanggal' }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Tinggi Badan (cm)' }
-                }
-            }
-        }
-    });
-});
 </script>
 
 <script>
