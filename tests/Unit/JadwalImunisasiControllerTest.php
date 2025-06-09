@@ -58,29 +58,32 @@ class JadwalImunisasiControllerTest extends TestCase
          $response->assertViewHasAll(['jadwal', 'listanak']);
      }
 
-     /** @test */
-     public function it_stores_jadwal_data()
-     {
-         $user = UsersModel::factory()->create();
-         $this->actingAs($user);
+        /** @test */
+    public function it_stores_jadwal_data()
+    {
+        $user = UsersModel::factory()->create();
+        $this->actingAs($user);
 
-         $anak = AnakModel::factory()->create(['users_id' => $user->id]);
+        $anak = AnakModel::factory()->create(['users_id' => $user->id]);
 
-         $data = [
-             'anak_id' => $anak->id,
-             'tanggal_imunisasi' => '2025-05-10',
-             'jenis_imunisasi' => 'BCG',
-             'keterangan' => 'Wajib hadir',
-         ];
+        $data = [
+            'anak_id' => [$anak->id],
+            'tanggal_imunisasi' => '2025-05-10',
+            'jenis_imunisasi' => 'BCG',
+            'keterangan' => 'Wajib hadir',
+        ];
 
-         $response = $this->post('/jadwal-imunisasi/store', $data);
+        $response = $this->post('/jadwal-imunisasi/store', $data);
 
-         $response->assertRedirect('/jadwal-imunisasi');
-         $this->assertDatabaseHas('imunisasi', [
-             'anak_id' => $anak->id,
-             'jenis_imunisasi' => 'BCG'
-         ]);
-     }
+        $response->assertRedirect('/jadwal-imunisasi');
+
+        foreach ($data['anak_id'] as $id) {
+            $this->assertDatabaseHas('imunisasi', [
+                'anak_id' => $id,
+                'jenis_imunisasi' => 'BCG'
+            ]);
+        }
+    }
 
      /** @test */
      public function it_displays_edit_jadwal_page()
