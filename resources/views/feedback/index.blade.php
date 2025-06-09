@@ -61,13 +61,13 @@
                                         <a href="{{ route('feedback.edit', $feedback->id) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
 
-                                        <form action="{{ route('feedback.destroy', $feedback->id) }}" method="POST"
+                                        <!-- <form action="{{ route('feedback.destroy', $feedback->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
-                                        </form>
+                                        </form> -->
                                         @endif
                                     </td>
                                 </tr>
